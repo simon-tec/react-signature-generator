@@ -157,6 +157,7 @@ export default function App() {
             copiedVisual={copiedVisual} 
             copiedCode={copiedCode} 
             triggerToast={triggerToast} 
+            updateConfig={updateConfig}
           />
         </div>
       </main>
