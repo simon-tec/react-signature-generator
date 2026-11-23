@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact } from 'lucide-react';
+import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact, Image } from 'lucide-react';
 import { FONT_OPTIONS } from '../utils/signatureGenerator';
 import { Accordion, TextInput, TextArea, Toggle, ColorPicker } from './FormElements';
 
@@ -12,11 +12,10 @@ export default function FormControls({ config, updateConfig }) {
         <div className="grid grid-cols-2 gap-3">
           {[
             { id: 'split', label: 'Split' },
-            { id: 'stacked', label: 'Stacked' },
+            { id: 'stacked', label: 'Stacked (Left)' },
             { id: 'terminal-code', label: 'Terminal (Code)' },
             { id: 'terminal-clean', label: 'Terminal (Clean)' },
-            { id: 'banner-img', label: 'Banner (Image)' },
-            { id: 'banner-html', label: 'Banner (HTML)' }
+            { id: 'grid-block', label: 'Stacked (Grid block)' }
           ].map((type) => (
             <label 
               key={type.id}
@@ -33,11 +32,6 @@ export default function FormControls({ config, updateConfig }) {
             </label>
           ))}
         </div>
-        {config.layout === 'banner-img' && (
-          <div className="pt-2 border-t border-slate-100">
-            <TextInput label="Banner Image URL" value={config.bannerImg} onChange={(val) => updateConfig('bannerImg', val)} placeholder="https://example.com/banner.png" />
-          </div>
-        )}
       </Accordion>
 
       <Accordion title="Target Email Client" icon={Layers}>
@@ -95,6 +89,34 @@ export default function FormControls({ config, updateConfig }) {
           </div>
           <TextInput value={config.address} onChange={(val) => updateConfig('address', val)} placeholder="Central Auckland, Auckland, New Zealand" disabled={!config.showAddress} />
         </div>
+      </Accordion>
+
+      <Accordion title="Promotional Banner" icon={Image}>
+        <div>
+          <label className="block font-medium text-slate-700 mb-1 text-xs">Banner Type</label>
+          <select value={config.bannerType} onChange={(e) => updateConfig('bannerType', e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
+            <option value="none">None</option>
+            <option value="image">Image Banner</option>
+            <option value="html">HTML Banner</option>
+          </select>
+        </div>
+
+        {config.bannerType === 'image' && (
+          <div className="space-y-3 pt-2">
+            <TextInput label="Image URL" value={config.bannerImgUrl} onChange={(val) => updateConfig('bannerImgUrl', val)} placeholder="https://example.com/banner.png" fontMono={true} />
+            <TextInput label="Link URL (Optional)" value={config.bannerLinkUrl} onChange={(val) => updateConfig('bannerLinkUrl', val)} placeholder="https://example.com/promo" fontMono={true} />
+          </div>
+        )}
+
+        {config.bannerType === 'html' && (
+          <div className="space-y-3 pt-2">
+            <TextInput label="Banner Message" value={config.bannerHtmlText} onChange={(val) => updateConfig('bannerHtmlText', val)} placeholder="Secure Your Enterprise Today" />
+            <div className="grid grid-cols-2 gap-3">
+              <ColorPicker label="Background Colour" value={config.bannerBgColor} onChange={(val) => updateConfig('bannerBgColor', val)} />
+              <ColorPicker label="Text Colour" value={config.bannerTextColor} onChange={(val) => updateConfig('bannerTextColor', val)} />
+            </div>
+          </div>
+        )}
       </Accordion>
 
       <Accordion title="Branding & Typography" icon={Palette}>
