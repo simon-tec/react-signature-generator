@@ -10,7 +10,7 @@ export default function FormControls({ data }) {
     address, setAddress, showAddress, setShowAddress,
     layout, setLayout, bannerImg, setBannerImg, clientMode, setClientMode,
     primaryColor, setPrimaryColor, accentColor, setAccentColor, secondaryColor, setSecondaryColor,
-    selectedFont, setSelectedFont, logoUrl, setLogoUrl, logoWidth, setLogoWidth,
+    selectedFont, setSelectedFont, textSize, setTextSize, logoUrl, setLogoUrl, logoWidth, setLogoWidth,
     showCta, setShowCta, ctaText, setCtaText, ctaUrl, setCtaUrl,
     showDisclaimer, setShowDisclaimer, disclaimer, setDisclaimer,
     showTags, setShowTags, tag1, setTag1, tag2, setTag2,
@@ -165,15 +165,26 @@ export default function FormControls({ data }) {
           </div>
 
           <div>
+            <label className="block font-medium text-slate-700 mb-1 flex items-center gap-1"><Type className="w-3.5 h-3.5 text-slate-400" /> Text Size</label>
+            <select value={textSize} onChange={(e) => setTextSize(Number(e.target.value))} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
+              <option value={11}>Small (11px)</option>
+              <option value={13}>Medium (13px)</option>
+              <option value={15}>Large (15px)</option>
+              <option value={17}>Extra Large (17px)</option>
+            </select>
+          </div>
+
+          <div>
             <label className="block font-medium text-slate-700 mb-1">Company Logo URL</label>
             <input type="text" value={logoUrl} onChange={(e) => setLogoUrl(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none font-mono" />
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="font-medium text-slate-700">Logo Size</label><span className="font-mono text-[#2a2b72] font-semibold">{logoWidth}px</span>
+            <div className="mb-1">
+              <label className="font-medium text-slate-700">Logo Size: </label>
+              <span className="font-mono text-[#2a2b72] font-semibold">{logoWidth}px</span>
             </div>
-            <input type="range" min="90" max="200" step="5" value={logoWidth} onChange={(e) => setLogoWidth(e.target.value)} className="w-full accent-[#2a2b72] cursor-pointer" />
+            <input type="range" min="50" max="220" step="5" value={logoWidth} onChange={(e) => setLogoWidth(e.target.value)} className="w-full accent-[#2a2b72] cursor-pointer" />
           </div>
 
           <div className="pt-3 mt-3 border-t border-slate-100">
