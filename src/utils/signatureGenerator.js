@@ -15,13 +15,21 @@ export const generateHTML = (data) => {
   const {
     name, title, department, phone, mobile, showMobile, email, website, address, showAddress,
     company, linkedin, showLinkedin, tag1, tag2, showTags, tip, showTip, layout, disclaimer, showDisclaimer,
-    bannerImg, logoUrl, primaryColor, accentColor, secondaryColor, selectedFont, logoWidth,
+    bannerImg, logoUrl, primaryColor, accentColor, secondaryColor, selectedFont, textSize, logoWidth,
     clientMode, showCta, ctaText, ctaUrl
   } = data;
 
   const isOutlook = clientMode === 'outlook';
   const currentFontStack = FONT_OPTIONS.find(f => f.id === selectedFont)?.stack || FONT_OPTIONS[0].stack;
   const displayWebsite = website.replace(/^https?:\/\//i, '');
+  
+  // Font Size Calculations
+  const baseSize = Number(textSize) || 13;
+  const nameSize = baseSize + 3;
+  const titleSize = baseSize;
+  const contactSize = baseSize - 1;
+  const tinySize = baseSize - 2;
+  const disclaimerSize = baseSize - 3;
   
   // Strict Input Validation for Links
   const cleanPhone = phone.replace(/[^\d+]/g, '');
@@ -41,7 +49,7 @@ export const generateHTML = (data) => {
     <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 12px; border-collapse: collapse;">
       <tr>
         <td style="background-color: ${accentColor}; border-radius: 4px; padding: 6px 14px; text-align: center; border: 2px solid ${primaryColor};">
-          <a href="${ctaUrl}" target="_blank" style="font-family: ${currentFontStack}; font-size: 11px; font-weight: bold; color: #ffffff; text-decoration: none; display: inline-block;">
+          <a href="${ctaUrl}" target="_blank" style="font-family: ${currentFontStack}; font-size: ${tinySize}px; font-weight: bold; color: #ffffff; text-decoration: none; display: inline-block;">
             ${ctaText}
           </a>
         </td>
@@ -51,7 +59,7 @@ export const generateHTML = (data) => {
   const disclaimerHtml = showDisclaimer && disclaimer ? `
     <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; border-collapse: collapse; width: 100%; max-width: 520px;">
       <tr>
-        <td style="font-family: ${currentFontStack}; font-size: 10px; color: #94a3b8; line-height: 1.4; text-align: justify; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+        <td style="font-family: ${currentFontStack}; font-size: ${disclaimerSize}px; color: #94a3b8; line-height: 1.4; text-align: justify; border-top: 1px solid #e2e8f0; padding-top: 10px;">
           ${disclaimer}
         </td>
       </tr>
@@ -60,7 +68,7 @@ export const generateHTML = (data) => {
   const tipHtml = showTip && tip ? `
     <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 10px; border-collapse: collapse; width: 100%; max-width: 520px;">
       <tr>
-        <td style="font-family: ${currentFontStack}; font-size: 11px; color: #64748b; line-height: 1.4; font-style: italic;">
+        <td style="font-family: ${currentFontStack}; font-size: ${tinySize}px; color: #64748b; line-height: 1.4; font-style: italic;">
           ${tip}
         </td>
       </tr>
@@ -69,15 +77,15 @@ export const generateHTML = (data) => {
   const tagsHtml = showTags && (tag1 || tag2) ? `
     <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 10px; border-collapse: collapse;">
       <tr>
-        ${tag1 ? `<td style="background-color: #f1f5f9; border: 1px solid ${primaryColor}; border-radius: 12px; padding: 3px 10px; font-family: ${currentFontStack}; font-weight: 600; font-size: 11px; color: ${primaryColor};">${tag1}</td>` : ''}
+        ${tag1 ? `<td style="background-color: #f1f5f9; border: 1px solid ${primaryColor}; border-radius: 12px; padding: 3px 10px; font-family: ${currentFontStack}; font-weight: 600; font-size: ${tinySize}px; color: ${primaryColor};">${tag1}</td>` : ''}
         ${tag1 && tag2 ? `<td width="6" style="width: 6px; font-size: 0px;">&nbsp;</td>` : ''}
-        ${tag2 ? `<td style="background-color: #f1f5f9; border: 1px solid ${primaryColor}; border-radius: 12px; padding: 3px 10px; font-family: ${currentFontStack}; font-weight: 600; font-size: 11px; color: ${primaryColor};">${tag2}</td>` : ''}
+        ${tag2 ? `<td style="background-color: #f1f5f9; border: 1px solid ${primaryColor}; border-radius: 12px; padding: 3px 10px; font-family: ${currentFontStack}; font-weight: 600; font-size: ${tinySize}px; color: ${primaryColor};">${tag2}</td>` : ''}
       </tr>
     </table>
   ` : '';
 
   const contactDetailsHtml = `
-    <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 10px; font-size: 12px; color: ${secondaryColor}; font-family: ${currentFontStack}; border-collapse: collapse;">
+    <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 10px; font-size: ${contactSize}px; color: ${secondaryColor}; font-family: ${currentFontStack}; border-collapse: collapse;">
       <tr>
         <td style="padding-bottom: 3px; font-family: ${currentFontStack};">
           <strong style="color: ${accentColor}; display: inline-block; width: 16px;">P:</strong> <a href="tel:${cleanPhone}" style="color: ${secondaryColor}; text-decoration: none;">${phone}</a>
@@ -116,7 +124,7 @@ export const generateHTML = (data) => {
 
   const splitBaseHtml = `
 ${isOutlook ? '<!--[if mso]><table role="presentation" border="0" cellspacing="0" cellpadding="0" width="520"><tr><td width="' + (Number(logoWidth) + 30) + '" valign="top"><![endif]-->' : ''}
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: 13px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
   <tr>
     <td valign="top" style="padding-right: 18px; border-right: 2px solid ${accentColor}; width: ${logoWidth}px;" width="${logoWidth}">
       <a href="${website}" target="_blank" style="text-decoration: none; display: block;">
@@ -126,9 +134,9 @@ ${isOutlook ? '<!--[if mso]><table role="presentation" border="0" cellspacing="0
     ${isOutlook ? '<!--[if mso]></td><td width="20" style="font-size:0px;line-height:0px;">&nbsp;</td><td width="330" valign="top"><![endif]-->' : ''}
     <td valign="top" style="padding-left: 18px;">
       <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
-        <tr><td style="font-size: 16px; font-weight: 700; color: ${primaryColor}; font-family: ${currentFontStack}; line-height: 1.2;">${name}</td></tr>
-        <tr><td style="font-size: 13px; font-weight: 500; color: ${secondaryColor}; font-family: ${currentFontStack}; padding-top: 2px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</td></tr>
-        ${company ? `<tr><td style="font-size: 12px; font-weight: 600; color: ${accentColor}; font-family: ${currentFontStack}; padding-top: 1px;">${company}</td></tr>` : ''}
+        <tr><td style="font-size: ${nameSize}px; font-weight: 700; color: ${primaryColor}; font-family: ${currentFontStack}; line-height: 1.2;">${name}</td></tr>
+        <tr><td style="font-size: ${titleSize}px; font-weight: 500; color: ${secondaryColor}; font-family: ${currentFontStack}; padding-top: 2px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</td></tr>
+        ${company ? `<tr><td style="font-size: ${contactSize}px; font-weight: 600; color: ${accentColor}; font-family: ${currentFontStack}; padding-top: 1px;">${company}</td></tr>` : ''}
       </table>
       ${contactDetailsHtml}
       ${tagsHtml}
@@ -143,12 +151,12 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   
   if (layout === 'stacked') {
     layoutHtml = `
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: 13px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
   <tr>
     <td valign="top" style="padding-bottom: 15px;">
-      <div style="font-size: 18px; font-weight: 700; color: ${primaryColor}; line-height: 1.2;">${name}</div>
-      <div style="font-size: 13px; font-weight: 500; color: ${secondaryColor}; padding-top: 2px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</div>
-      ${company ? `<div style="font-size: 12px; font-weight: 600; color: ${accentColor}; padding-top: 2px;">${company}</div>` : ''}
+      <div style="font-size: ${nameSize + 2}px; font-weight: 700; color: ${primaryColor}; line-height: 1.2;">${name}</div>
+      <div style="font-size: ${titleSize}px; font-weight: 500; color: ${secondaryColor}; padding-top: 2px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</div>
+      ${company ? `<div style="font-size: ${contactSize}px; font-weight: 600; color: ${accentColor}; padding-top: 2px;">${company}</div>` : ''}
     </td>
   </tr>
   <tr>
@@ -166,11 +174,11 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
 </table>`;
   } else if (layout === 'terminal-code') {
     layoutHtml = `
-<table cellpadding="12" cellspacing="0" border="0" style="background-color: #0f172a; border-radius: 6px; font-family: 'Courier New', Courier, monospace; color: #cbd5e1; font-size: 12px; border-collapse: collapse; text-align: left; width: 520px; max-width: 100%;">
+<table cellpadding="12" cellspacing="0" border="0" style="background-color: #0f172a; border-radius: 6px; font-family: 'Courier New', Courier, monospace; color: #cbd5e1; font-size: ${contactSize}px; border-collapse: collapse; text-align: left; width: 520px; max-width: 100%;">
   <tr>
     <td valign="top" style="border-bottom: 1px dashed #334155; padding-bottom: 10px;">
        <span style="color: ${accentColor}; font-weight: bold;">guest@${company.toLowerCase().replace(/[^a-z0-9]/g, '')}:~$</span> whoami<br/>
-       <span style="color: #f8fafc; font-size: 15px; font-weight: bold; margin-top: 5px; display: inline-block;">${name}</span><br/>
+       <span style="color: #f8fafc; font-size: ${nameSize}px; font-weight: bold; margin-top: 5px; display: inline-block;">${name}</span><br/>
        <span style="color: #94a3b8;">${title}</span>
     </td>
   </tr>
@@ -184,14 +192,14 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
          &nbsp;&nbsp;"web": "<a href="${website}" target="_blank" style="color: #60a5fa; text-decoration: none;">${displayWebsite}</a>"<br/>
          }
        </div>
-       ${showCta ? `<div style="margin-top: 10px;"><a href="${ctaUrl}" style="background-color: ${accentColor}; color: #fff; padding: 4px 8px; text-decoration: none; font-size: 11px; font-weight: bold; border-radius: 3px;">> ${ctaText}</a></div>` : ''}
+       ${showCta ? `<div style="margin-top: 10px;"><a href="${ctaUrl}" style="background-color: ${accentColor}; color: #fff; padding: 4px 8px; text-decoration: none; font-size: ${tinySize}px; font-weight: bold; border-radius: 3px;">> ${ctaText}</a></div>` : ''}
     </td>
   </tr>
 </table>`;
   } else if (layout === 'terminal-clean') {
     const monospaced = `"Consolas", "Menlo", "Courier New", monospace`;
     layoutHtml = `
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: 13px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
   <tr>
     <td valign="top" style="padding-bottom: 12px;">
       <a href="${website}" target="_blank" style="text-decoration: none; display: block;">
@@ -204,10 +212,10 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
       <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
         <tr>
           <td bgcolor="#f8fafc" style="background-color: #f8fafc; border-left: 3px solid ${accentColor}; padding: 12px 20px 12px 16px;">
-            <div style="font-size: 16px; font-weight: 700; color: ${primaryColor}; margin-bottom: 2px;">${name}</div>
-            <div style="font-size: 12px; color: ${secondaryColor}; margin-bottom: 10px;">${title}${company ? ` &bull; ${company}` : ''}</div>
+            <div style="font-size: ${nameSize}px; font-weight: 700; color: ${primaryColor}; margin-bottom: 2px;">${name}</div>
+            <div style="font-size: ${contactSize}px; color: ${secondaryColor}; margin-bottom: 10px;">${title}${company ? ` &bull; ${company}` : ''}</div>
             
-            <div style="font-family: ${monospaced}; font-size: 12px; color: ${primaryColor}; line-height: 1.6;">
+            <div style="font-family: ${monospaced}; font-size: ${contactSize}px; color: ${primaryColor}; line-height: 1.6;">
               <span style="color: ${accentColor}; font-weight: bold;">&gt;</span> tel &nbsp;&nbsp;&nbsp;&nbsp; <a href="tel:${cleanPhone}" style="color: ${primaryColor}; text-decoration: none;">${phone}</a><br/>
               <span style="color: ${accentColor}; font-weight: bold;">&gt;</span> email &nbsp;&nbsp; <a href="mailto:${cleanEmail}" style="color: ${primaryColor}; text-decoration: none;">${email}</a><br/>
               <span style="color: ${accentColor}; font-weight: bold;">&gt;</span> web &nbsp;&nbsp;&nbsp;&nbsp; <a href="${website}" target="_blank" style="color: ${primaryColor}; text-decoration: none;">${displayWebsite}</a>
@@ -215,8 +223,8 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
             
             ${showTags && (tag1 || tag2) ? `
             <div style="padding-top: 8px;">
-              ${tag1 ? `<div style="font-family: ${monospaced}; font-size: 12px; color: ${primaryColor}; line-height: 1.6;"><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> ${tag1}</div>` : ''}
-              ${tag2 ? `<div style="font-family: ${monospaced}; font-size: 12px; color: ${primaryColor}; line-height: 1.6;"><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> ${tag2}</div>` : ''}
+              ${tag1 ? `<div style="font-family: ${monospaced}; font-size: ${contactSize}px; color: ${primaryColor}; line-height: 1.6;"><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> ${tag1}</div>` : ''}
+              ${tag2 ? `<div style="font-family: ${monospaced}; font-size: ${contactSize}px; color: ${primaryColor}; line-height: 1.6;"><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> ${tag2}</div>` : ''}
             </div>` : ''}
             ${ctaHtml}
           </td>
@@ -239,7 +247,7 @@ ${splitBaseHtml}
 </table>`;
   } else if (layout === 'banner-html') {
     layoutHtml = `
-<table width="480" cellpadding="0" cellspacing="0" border="0" style="width: 480px; max-width: 100%; font-family: ${currentFontStack}; font-size: 13px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
+<table width="480" cellpadding="0" cellspacing="0" border="0" style="width: 480px; max-width: 100%; font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
   <tr>
     <td colspan="2">
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse;">
@@ -259,9 +267,9 @@ ${splitBaseHtml}
   </tr>
   <tr>
     <td valign="top" style="padding: 10px 28px 0 0; width: 50%;">
-      <div style="font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 2px;">${name}</div>
-      <div style="font-size: 13px; color: ${secondaryColor};">${title}</div>
-      ${company ? `<div style="font-size: 13px; font-weight: 600; color: ${primaryColor}; margin-top: 2px;">${company}</div>` : ''}
+      <div style="font-size: ${nameSize + 2}px; font-weight: 700; color: #1e293b; margin-bottom: 2px;">${name}</div>
+      <div style="font-size: ${titleSize}px; color: ${secondaryColor};">${title}</div>
+      ${company ? `<div style="font-size: ${baseSize}px; font-weight: 600; color: ${primaryColor}; margin-top: 2px;">${company}</div>` : ''}
     </td>
     <td valign="top" style="padding: 10px 0 0 0; width: 50%;">
       ${contactDetailsHtml}
