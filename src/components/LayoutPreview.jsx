@@ -103,7 +103,7 @@ export default function LayoutPreview({
             <button onClick={handleCopyCode} className="px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1.5">
               <Code className="w-3.5 h-3.5 text-slate-500" /> Copy Raw HTML
             </button>
-            <button onClick={() => handleCopyVisual(previewRef)} className="px-4 py-2 text-xs font-bold text-white bg-[#e85626] hover:bg-[#d64a1f] rounded-lg shadow-sm transition-all flex items-center gap-1.5">
+            <button onClick={() => handleCopyVisual(previewRef)} className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm transition-all flex items-center gap-1.5">
               {copiedVisual ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
               <span>{copiedVisual ? "Copied Formatted!" : "Copy Formatted"}</span>
             </button>
