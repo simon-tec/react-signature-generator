@@ -26,7 +26,6 @@ const DEFAULT_CONFIG = {
   layout: 'split',
   disclaimer: "CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please delete all copies and notify the sender immediately.",
   showDisclaimer: true,
-  bannerImg: "https://placehold.co/520x100/1e3a8a/ffffff?text=Secure+Your+Enterprise+Today",
   logoUrl: LOGO_URL,
   primaryColor: "#2a2b72",
   accentColor: "#e85626",
@@ -40,7 +39,13 @@ const DEFAULT_CONFIG = {
   ctaUrl: "https://safeguardian.co.nz/book-demo",
   showCta2: false,
   cta2Text: "🗓️ Schedule a Demo",
-  cta2Url: "https://www.safeguardian.co.nz/demo"
+  cta2Url: "https://www.safeguardian.co.nz/demo",
+  bannerType: "none",
+  bannerImgUrl: "https://placehold.co/520x100/1e3a8a/ffffff?text=Secure+Your+Enterprise+Today",
+  bannerLinkUrl: "",
+  bannerHtmlText: "Secure Your Enterprise Today",
+  bannerBgColor: "#2a2b72",
+  bannerTextColor: "#ffffff"
 };
 
 export default function App() {
