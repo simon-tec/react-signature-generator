@@ -13,10 +13,11 @@ export default function App() {
   const [showMobile, setShowMobile] = useState(false);
   const [email, setEmail] = useState("alex.morgan@safeguardian.co.nz");
   const [website, setWebsite] = useState("https://safeguardian.co.nz");
-  const [address, setAddress] = useState("Auckland, New Zealand");
+  const [address, setAddress] = useState("Central Auckland, Auckland, New Zealand");
   const [showAddress, setShowAddress] = useState(true);
   const [company, setCompany] = useState("SafeGuardian");
   const [linkedin, setLinkedin] = useState("https://linkedin.com/company/safeguardian");
+  const [showLinkedin, setShowLinkedin] = useState(false);
   const [tag1, setTag1] = useState("Autonomous Pentesting");
   const [tag2, setTag2] = useState("Horizon3.ai Autonomous Cybersecurity");
   const [showTags, setShowTags] = useState(true);
@@ -28,7 +29,6 @@ export default function App() {
   const [bannerImg, setBannerImg] = useState("https://placehold.co/520x100/1e3a8a/ffffff?text=Secure+Your+Enterprise+Today");
   const [logoUrl, setLogoUrl] = useState(LOGO_URL);
   
-  // Apporved Brand Alignment: Defaults set to deep violet-blue & vibrant orange
   const [primaryColor, setPrimaryColor] = useState("#2a2b72"); 
   const [accentColor, setAccentColor] = useState("#e85626");   
   const [secondaryColor, setSecondaryColor] = useState("#475569"); 
@@ -43,11 +43,10 @@ export default function App() {
   const [copiedCode, setCopiedCode] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
 
-  // Bundle state for easy prop passing to FormControls
   const formData = {
     name, setName, title, setTitle, department, setDepartment, phone, setPhone, mobile, setMobile,
     showMobile, setShowMobile, email, setEmail, website, setWebsite, address, setAddress, showAddress, setShowAddress,
-    company, setCompany, linkedin, setLinkedin, tag1, setTag1, tag2, setTag2, showTags, setShowTags,
+    company, setCompany, linkedin, setLinkedin, showLinkedin, setShowLinkedin, tag1, setTag1, tag2, setTag2, showTags, setShowTags,
     tip, setTip, showTip, setShowTip, layout, setLayout, disclaimer, setDisclaimer, showDisclaimer, setShowDisclaimer,
     bannerImg, setBannerImg, logoUrl, setLogoUrl, primaryColor, setPrimaryColor, accentColor, setAccentColor,
     secondaryColor, setSecondaryColor, selectedFont, setSelectedFont, logoWidth, setLogoWidth, clientMode, setClientMode,
@@ -94,10 +93,10 @@ export default function App() {
   };
 
   const handleReset = () => {
-    setName("Alex Morgan"); setTitle("Senior Security Advisor"); setDepartment("Enterprise Risk & Compliance");
-    setCompany("SafeGuardian"); setPhone("+64 9 300 1234"); setMobile("+64 21 123 4567"); setShowMobile(false);
-    setEmail("alex.morgan@safeguardian.co.nz"); setWebsite("https://safeguardian.co.nz"); setLinkedin("https://linkedin.com/company/safeguardian");
-    setAddress("Auckland, New Zealand"); setShowAddress(true); setPrimaryColor("#2a2b72"); setAccentColor("#e85626"); setSecondaryColor("#475569");
+    setName("MR. Robot"); setTitle("Senior Cybersecurity Engineer"); setDepartment("Allsafe Cybersecurity");
+    setCompany("SafeGuardian"); setPhone("+64 9 000 1234"); setMobile("+64 21 000 1234"); setShowMobile(false);
+    setEmail("mr.robot@securemail.io"); setWebsite("https://www.safeguardian.co.nz"); setLinkedin("https://nz.linkedin.com/in/mr-robot"); setShowLinkedin(false);
+    setAddress("Central Auckland, Auckland, New Zealand"); setShowAddress(true); setPrimaryColor("#2a2b72"); setAccentColor("#e85626"); setSecondaryColor("#475569");
     setSelectedFont("Inter"); setLogoWidth(140); setClientMode("gmail"); setShowCta(true); setCtaText("🔒 Schedule a Security Audit");
     setCtaUrl("https://safeguardian.co.nz/book-demo"); setLayout("split"); setLogoUrl(LOGO_URL); setTag1("Autonomous Pentesting");
     setTag2("Horizon3.ai Autonomous Cybersecurity"); setShowTags(true); setTip("Security tip: verify unexpected payment or login requests by phone before acting.");
