@@ -61,7 +61,7 @@ export const ColorPicker = ({ label, value, onChange }) => (
     <label className="block font-medium text-slate-700 mb-1 text-xs">{label}</label>
     <div className="flex items-center gap-2">
       <input type="color" value={value} onChange={(e) => onChange(e.target.value)} className="w-9 h-9 p-0.5 border border-slate-300 rounded-lg cursor-pointer bg-white" />
-      <input type="text" value={value} onChange={(e) => onChange(e.target.value)} className="w-full px-2 py-1.5 border border-slate-300 rounded-lg font-mono uppercase text-[11px]" />
+      <input type="text" value={value} onChange={(e) => onChange(e.target.value)} className="w-full px-2 py-1.5 border border-slate-300 rounded-lg font-mono uppercase text-[11px] bg-white text-slate-900 focus:ring-2 focus:ring-[#2a2b72] outline-none" />
     </div>
   </div>
 );
