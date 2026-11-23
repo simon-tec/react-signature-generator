@@ -262,7 +262,7 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   <tr>
     <td valign="top" style="padding: 10px 28px 0 0; width: 50%;">
       <div style="font-size: ${nameSize + 2}px; font-weight: 700; color: #1e293b; margin-bottom: 2px;">${name}</div>
-      <div style="font-size: ${titleSize}px; color: ${secondaryColor};">${title}</div>
+      <div style="font-size: ${titleSize}px; color: ${secondaryColor};">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</div>
       ${company ? `<div style="font-size: ${baseSize}px; font-weight: 600; color: ${primaryColor}; margin-top: 2px;">${company}</div>` : ''}
     </td>
     <td valign="top" style="padding: 10px 0 0 0; width: 50%;">
