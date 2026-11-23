@@ -16,7 +16,7 @@ export const generateHTML = (data) => {
     name, title, department, phone, mobile, showMobile, email, website, address, showAddress,
     company, linkedin, showLinkedin, tag1, tag2, showTags, tip, showTip, layout, disclaimer, showDisclaimer,
     bannerImg, logoUrl, primaryColor, accentColor, secondaryColor, selectedFont, textSize, logoWidth,
-    clientMode, showCta, ctaText, ctaUrl
+    clientMode, showCta, ctaText, ctaUrl, showCta2, cta2Text, cta2Url
   } = data;
 
   const isOutlook = clientMode === 'outlook';
@@ -45,16 +45,34 @@ export const generateHTML = (data) => {
 </style>
 `;
 
-  const ctaHtml = showCta ? `
-    <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 12px; border-collapse: collapse;">
-      <tr>
-        <td style="background-color: ${accentColor}; border-radius: 4px; padding: 6px 14px; text-align: center; border: 2px solid ${primaryColor};">
+  let ctaHtml = '';
+  if (showCta || showCta2) {
+    ctaHtml = `<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 12px; border-collapse: collapse;"><tr>`;
+    
+    if (showCta) {
+      ctaHtml += `
+        <td style="background-color: ${accentColor}; border-radius: 4px; padding: 6px 14px; text-align: center; border: 2px solid ${accentColor};">
           <a href="${ctaUrl}" target="_blank" style="font-family: ${currentFontStack}; font-size: ${tinySize}px; font-weight: bold; color: #ffffff; text-decoration: none; display: inline-block;">
             ${ctaText}
           </a>
-        </td>
-      </tr>
-    </table>` : '';
+        </td>`;
+    }
+
+    if (showCta && showCta2) {
+      ctaHtml += `<td width="8" style="width: 8px; font-size: 0px;">&nbsp;</td>`;
+    }
+
+    if (showCta2) {
+      ctaHtml += `
+        <td style="background-color: transparent; border-radius: 4px; padding: 6px 14px; text-align: center; border: 2px solid ${primaryColor};">
+          <a href="${cta2Url}" target="_blank" style="font-family: ${currentFontStack}; font-size: ${tinySize}px; font-weight: bold; color: ${primaryColor}; text-decoration: none; display: inline-block;">
+            ${cta2Text}
+          </a>
+        </td>`;
+    }
+    
+    ctaHtml += `</tr></table>`;
+  }
 
   const disclaimerHtml = showDisclaimer && disclaimer ? `
     <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; border-collapse: collapse; width: 100%; max-width: 520px;">
@@ -192,7 +210,7 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
          &nbsp;&nbsp;"web": "<a href="${website}" target="_blank" style="color: #60a5fa; text-decoration: none;">${displayWebsite}</a>"<br/>
          }
        </div>
-       ${showCta ? `<div style="margin-top: 10px;"><a href="${ctaUrl}" style="background-color: ${accentColor}; color: #fff; padding: 4px 8px; text-decoration: none; font-size: ${tinySize}px; font-weight: bold; border-radius: 3px;">> ${ctaText}</a></div>` : ''}
+       ${ctaHtml}
     </td>
   </tr>
 </table>`;
