@@ -162,4 +162,11 @@ export default function App() {
       </main>
 
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-
+        <div className="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all z-50 border border-slate-700 animate-bounce">
+          <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
+          <span className="text-xs font-medium">{toastMessage}</span>
+        </div>
+      )}
+    </div>
+  );
+}
