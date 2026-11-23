@@ -141,16 +141,23 @@ export const generateHTML = (data) => {
     </table>
   `;
 
+  // SPLIT LAYOUT - Featuring the vertical two-tone divider line
   const splitBaseHtml = `
-${isOutlook ? '<!--[if mso]><table role="presentation" border="0" cellspacing="0" cellpadding="0" width="520"><tr><td width="' + (Number(logoWidth) + 30) + '" valign="top"><![endif]-->' : ''}
+${isOutlook ? '<!--[if mso]><table role="presentation" border="0" cellspacing="0" cellpadding="0" width="520"><tr><td width="' + (Number(logoWidth) + 18) + '" valign="top"><![endif]-->' : ''}
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
   <tr>
-    <td valign="top" style="padding-right: 18px; border-right: 2px solid ${accentColor}; width: ${logoWidth}px;" width="${logoWidth}">
+    <td valign="top" style="padding-right: 18px; width: ${logoWidth}px;" width="${logoWidth}">
       <a href="${website}" target="_blank" style="text-decoration: none; display: block;">
         <img src="${logoUrl}" alt="${company}" width="${logoWidth}" style="display: block; width: ${logoWidth}px; max-width: ${logoWidth}px; height: auto; border: 0; outline: none; text-decoration: none;" />
       </a>
     </td>
-    ${isOutlook ? '<!--[if mso]></td><td width="20" style="font-size:0px;line-height:0px;">&nbsp;</td><td width="330" valign="top"><![endif]-->' : ''}
+    ${isOutlook ? '<!--[if mso]></td><td width="2" valign="top" bgcolor="' + primaryColor + '"><![endif]-->' : ''}
+    <td width="2" style="width: 2px; background-color: ${primaryColor};" valign="top">
+      <table width="2" cellpadding="0" cellspacing="0" border="0" style="width: 2px; border-collapse: collapse;">
+        <tr><td height="32" style="height: 32px; background-color: ${accentColor}; font-size: 0; line-height: 0;">&nbsp;</td></tr>
+      </table>
+    </td>
+    ${isOutlook ? '<!--[if mso]></td><td width="300" valign="top"><![endif]-->' : ''}
     <td valign="top" style="padding-left: 18px;">
       <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
         <tr><td style="font-size: ${nameSize}px; font-weight: 700; color: ${primaryColor}; font-family: ${currentFontStack}; line-height: 1.2;">${name}</td></tr>
@@ -169,17 +176,24 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   let layoutHtml = '';
   
   if (layout === 'stacked') {
+    // STACKED (LEFT) LAYOUT - Featuring the horizontal two-tone divider line
     layoutHtml = `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
   <tr>
-    <td valign="top" style="padding-bottom: 15px;">
+    <td valign="top" style="padding-bottom: 12px;">
       <div style="font-size: ${nameSize + 2}px; font-weight: 700; color: ${primaryColor}; line-height: 1.2;">${name}</div>
       <div style="font-size: ${titleSize}px; font-weight: 500; color: ${secondaryColor}; padding-top: 2px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</div>
       ${company ? `<div style="font-size: ${contactSize}px; font-weight: 600; color: ${accentColor}; padding-top: 2px;">${company}</div>` : ''}
     </td>
   </tr>
   <tr>
-    <td valign="top" style="border-top: 3px solid ${primaryColor}; padding-top: 15px;">
+    <td valign="top" style="padding-top: 4px;">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">
+        <tr>
+          <td width="80" style="width: 80px; border-top: 3px solid ${accentColor}; font-size: 0; line-height: 0;">&nbsp;</td>
+          <td style="border-top: 3px solid ${primaryColor}; font-size: 0; line-height: 0;">&nbsp;</td>
+        </tr>
+      </table>
       ${contactDetailsHtml}
       ${tagsHtml}
       <div style="margin-top: 12px;">
