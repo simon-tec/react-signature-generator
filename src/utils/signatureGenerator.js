@@ -14,7 +14,7 @@ export const FONT_OPTIONS = [
 export const generateHTML = (data) => {
   const {
     name, title, department, phone, mobile, showMobile, email, website, address, showAddress,
-    company, linkedin, tag1, tag2, showTags, tip, showTip, layout, disclaimer, showDisclaimer,
+    company, linkedin, showLinkedin, tag1, tag2, showTags, tip, showTip, layout, disclaimer, showDisclaimer,
     bannerImg, logoUrl, primaryColor, accentColor, secondaryColor, selectedFont, logoWidth,
     clientMode, showCta, ctaText, ctaUrl
   } = data;
@@ -99,7 +99,7 @@ export const generateHTML = (data) => {
           <strong style="color: ${accentColor}; display: inline-block; width: 16px;">W:</strong> <a href="${website}" target="_blank" style="color: ${accentColor}; text-decoration: none;">${displayWebsite}</a>
         </td>
       </tr>
-      ${linkedin ? `
+      ${showLinkedin && linkedin ? `
       <tr>
         <td style="padding-bottom: 3px; font-family: ${currentFontStack};">
           <strong style="color: ${accentColor}; display: inline-block; width: 16px;">in:</strong> <a href="${linkedin}" target="_blank" style="color: ${accentColor}; text-decoration: none;">LinkedIn</a>
@@ -127,7 +127,7 @@ ${isOutlook ? '<!--[if mso]><table role="presentation" border="0" cellspacing="0
     <td valign="top" style="padding-left: 18px;">
       <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
         <tr><td style="font-size: 16px; font-weight: 700; color: ${primaryColor}; font-family: ${currentFontStack}; line-height: 1.2;">${name}</td></tr>
-        <tr><td style="font-size: 13px; font-weight: 500; color: ${secondaryColor}; font-family: ${currentFontStack}; padding-top: 2px;">${title}${department ? ` &bull; ${department}` : ''}</td></tr>
+        <tr><td style="font-size: 13px; font-weight: 500; color: ${secondaryColor}; font-family: ${currentFontStack}; padding-top: 2px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</td></tr>
         ${company ? `<tr><td style="font-size: 12px; font-weight: 600; color: ${accentColor}; font-family: ${currentFontStack}; padding-top: 1px;">${company}</td></tr>` : ''}
       </table>
       ${contactDetailsHtml}
@@ -147,7 +147,7 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   <tr>
     <td valign="top" style="padding-bottom: 15px;">
       <div style="font-size: 18px; font-weight: 700; color: ${primaryColor}; line-height: 1.2;">${name}</div>
-      <div style="font-size: 13px; font-weight: 500; color: ${secondaryColor}; padding-top: 2px;">${title}${department ? ` &bull; ${department}` : ''}</div>
+      <div style="font-size: 13px; font-weight: 500; color: ${secondaryColor}; padding-top: 2px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</div>
       ${company ? `<div style="font-size: 12px; font-weight: 600; color: ${accentColor}; padding-top: 2px;">${company}</div>` : ''}
     </td>
   </tr>
