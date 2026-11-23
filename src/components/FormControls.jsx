@@ -1,12 +1,13 @@
 import React from 'react';
-import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate } from 'lucide-react';
+import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact } from 'lucide-react';
 import { FONT_OPTIONS } from '../utils/signatureGenerator';
 
 export default function FormControls({ data }) {
   const {
     name, setName, title, setTitle, department, setDepartment, company, setCompany,
     phone, setPhone, mobile, setMobile, showMobile, setShowMobile, email, setEmail,
-    website, setWebsite, linkedin, setLinkedin, address, setAddress, showAddress, setShowAddress,
+    website, setWebsite, linkedin, setLinkedin, showLinkedin, setShowLinkedin,
+    address, setAddress, showAddress, setShowAddress,
     layout, setLayout, bannerImg, setBannerImg, clientMode, setClientMode,
     primaryColor, setPrimaryColor, accentColor, setAccentColor, secondaryColor, setSecondaryColor,
     selectedFont, setSelectedFont, logoUrl, setLogoUrl, logoWidth, setLogoWidth,
@@ -86,33 +87,48 @@ export default function FormControls({ data }) {
         </div>
       </div>
 
-      {/* User Profile Form */}
+      {/* Personal Details Form */}
       <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-4">
         <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3 flex items-center gap-2">
           <User className="w-4 h-4 text-blue-600" /> Personal Details
         </h2>
         <div className="space-y-3.5 text-xs">
-          <div><label className="block font-medium text-slate-700 mb-1">Full Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
-          <div><label className="block font-medium text-slate-700 mb-1">Company Name</label><input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div><label className="block font-medium text-slate-700 mb-1">Primary Phone</label><input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="font-medium text-slate-700">Mobile Phone</label>
-                <label className="inline-flex items-center gap-1 cursor-pointer text-[10px] text-blue-600"><input type="checkbox" checked={showMobile} onChange={(e) => setShowMobile(e.target.checked)} className="rounded border-slate-300 text-blue-600 focus:ring-0" /> Show</label>
-              </div>
-              <input type="text" disabled={!showMobile} value={mobile} onChange={(e) => setMobile(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${showMobile ? 'border-slate-300 text-slate-900 bg-white' : 'border-slate-200 text-slate-400 bg-slate-50'}`} />
-            </div>
-          </div>
-          <div><label className="block font-medium text-slate-700 mb-1">Email Address</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
-          <div><label className="block font-medium text-slate-700 mb-1">Website URL</label><input type="text" value={website} onChange={(e) => setWebsite(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
-          <div><label className="block font-medium text-slate-700 mb-1">LinkedIn URL</label><input type="text" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
+          <div><label className="block font-medium text-slate-700 mb-1">Full Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="MR. Robot" className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
+          <div><label className="block font-medium text-slate-700 mb-1">Job Title</label><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Senior Cybersecurity Engineer" className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
+          <div><label className="block font-medium text-slate-700 mb-1">Department</label><input type="text" value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="Allsafe Cybersecurity" className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
+          <div><label className="block font-medium text-slate-700 mb-1">Company Name</label><input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="SafeGuardian" className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
+        </div>
+      </div>
+
+      {/* Contact Information Form */}
+      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-4">
+        <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3 flex items-center gap-2">
+          <Contact className="w-4 h-4 text-blue-600" /> Contact Information
+        </h2>
+        <div className="space-y-3.5 text-xs">
+          <div><label className="block font-medium text-slate-700 mb-1">Phone (primary)</label><input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+64 9 000 1234" className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="font-medium text-slate-700">Location / Address</label>
+              <label className="font-medium text-slate-700">Phone (secondary)</label>
+              <label className="inline-flex items-center gap-1 cursor-pointer text-[10px] text-blue-600"><input type="checkbox" checked={showMobile} onChange={(e) => setShowMobile(e.target.checked)} className="rounded border-slate-300 text-blue-600 focus:ring-0" /> Show</label>
+            </div>
+            <input type="text" disabled={!showMobile} value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder="+64 21 000 1234" className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${showMobile ? 'border-slate-300 text-slate-900 bg-white' : 'border-slate-200 text-slate-400 bg-slate-50'}`} />
+          </div>
+          <div><label className="block font-medium text-slate-700 mb-1">Email Address</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="mr.robot@securemail.io" className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
+          <div><label className="block font-medium text-slate-700 mb-1">Website URL</label><input type="text" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://www.safeguardian.co.nz" className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-slate-900" /></div>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="font-medium text-slate-700">LinkedIn URL</label>
+              <label className="inline-flex items-center gap-1 cursor-pointer text-[10px] text-blue-600"><input type="checkbox" checked={showLinkedin} onChange={(e) => setShowLinkedin(e.target.checked)} className="rounded border-slate-300 text-blue-600 focus:ring-0" /> Show</label>
+            </div>
+            <input type="text" disabled={!showLinkedin} value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="https://nz.linkedin.com/in/mr-robot" className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${showLinkedin ? 'border-slate-300 text-slate-900 bg-white' : 'border-slate-200 text-slate-400 bg-slate-50'}`} />
+          </div>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="font-medium text-slate-700">Location</label>
               <label className="inline-flex items-center gap-1 cursor-pointer text-[10px] text-blue-600"><input type="checkbox" checked={showAddress} onChange={(e) => setShowAddress(e.target.checked)} className="rounded border-slate-300 text-blue-600 focus:ring-0" /> Show</label>
             </div>
-            <input type="text" disabled={!showAddress} value={address} onChange={(e) => setAddress(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${showAddress ? 'border-slate-300 text-slate-900 bg-white' : 'border-slate-200 text-slate-400 bg-slate-50'}`} />
+            <input type="text" disabled={!showAddress} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Central Auckland, Auckland, New Zealand" className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none ${showAddress ? 'border-slate-300 text-slate-900 bg-white' : 'border-slate-200 text-slate-400 bg-slate-50'}`} />
           </div>
         </div>
       </div>
