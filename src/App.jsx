@@ -34,6 +34,7 @@ export default function App() {
   const [secondaryColor, setSecondaryColor] = useState("#475569"); 
 
   const [selectedFont, setSelectedFont] = useState("Inter");
+  const [textSize, setTextSize] = useState(13);
   const [logoWidth, setLogoWidth] = useState(140);
   const [clientMode, setClientMode] = useState("gmail");
   const [showCta, setShowCta] = useState(true);
@@ -49,7 +50,7 @@ export default function App() {
     company, setCompany, linkedin, setLinkedin, showLinkedin, setShowLinkedin, tag1, setTag1, tag2, setTag2, showTags, setShowTags,
     tip, setTip, showTip, setShowTip, layout, setLayout, disclaimer, setDisclaimer, showDisclaimer, setShowDisclaimer,
     bannerImg, setBannerImg, logoUrl, setLogoUrl, primaryColor, setPrimaryColor, accentColor, setAccentColor,
-    secondaryColor, setSecondaryColor, selectedFont, setSelectedFont, logoWidth, setLogoWidth, clientMode, setClientMode,
+    secondaryColor, setSecondaryColor, selectedFont, setSelectedFont, textSize, setTextSize, logoWidth, setLogoWidth, clientMode, setClientMode,
     showCta, setShowCta, ctaText, setCtaText, ctaUrl, setCtaUrl
   };
 
@@ -97,7 +98,7 @@ export default function App() {
     setCompany("SafeGuardian"); setPhone("+64 9 000 1234"); setMobile("+64 21 000 1234"); setShowMobile(false);
     setEmail("mr.robot@securemail.io"); setWebsite("https://www.safeguardian.co.nz"); setLinkedin("https://nz.linkedin.com/in/mr-robot"); setShowLinkedin(false);
     setAddress("Central Auckland, Auckland, New Zealand"); setShowAddress(true); setPrimaryColor("#2a2b72"); setAccentColor("#e85626"); setSecondaryColor("#475569");
-    setSelectedFont("Inter"); setLogoWidth(140); setClientMode("gmail"); setShowCta(true); setCtaText("🔒 Schedule a Security Audit");
+    setSelectedFont("Inter"); setTextSize(13); setLogoWidth(140); setClientMode("gmail"); setShowCta(true); setCtaText("🔒 Schedule a Security Audit");
     setCtaUrl("https://safeguardian.co.nz/book-demo"); setLayout("split"); setLogoUrl(LOGO_URL); setTag1("Autonomous Pentesting");
     setTag2("Horizon3.ai Autonomous Cybersecurity"); setShowTags(true); setTip("Security tip: verify unexpected payment or login requests by phone before acting.");
     setShowTip(true); setShowDisclaimer(false); setDisclaimer("CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please delete all copies and notify the sender immediately.");
