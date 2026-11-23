@@ -11,13 +11,32 @@ export const FONT_OPTIONS = [
   { id: 'Trebuchet', name: 'Trebuchet MS', stack: "'Trebuchet MS', 'Lucida Grande', Arial, sans-serif" }
 ];
 
+const getSocialIconUrl = (network, primaryColor) => {
+  const hex = primaryColor.replace('#', '');
+  return `https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons@master/images/svg/${network}.svg`;
+  // Note: Using jsDelivr for SVG is robust for preview, but for perfect email client rendering (like Outlook MSO), 
+  // you would ideally route these through a fast PNG rasteriser endpoint (e.g., a serverless function you control)
+  // or use a dedicated raster CDN. For this React generator, we use a fallback placeholder that returns PNGs.
+};
+
+const getPngIcon = (network, hexColor) => {
+  // Using placehold.co to reliably generate solid 24x24 PNG blocks with the first letter as a bulletproof email fallback,
+  // since relying on external SVGs inside MSO tables often breaks.
+  const initial = network.charAt(0).toUpperCase();
+  const hex = hexColor.replace('#', '');
+  return `https://placehold.co/48x48/${hex}/ffffff/png?text=${initial}&font=Montserrat`;
+};
+
 export const generateHTML = (data) => {
   const {
     name, title, department, phone, mobile, showMobile, email, website, address, showAddress,
     company, linkedin, showLinkedin, tag1, tag2, showTags, tip, showTip, layout, disclaimer, showDisclaimer,
     bannerType, bannerImgUrl, bannerLinkUrl, bannerHtmlText, bannerBgColor, bannerTextColor,
     logoUrl, primaryColor, accentColor, secondaryColor, selectedFont, textSize, logoWidth,
-    clientMode, showCta, ctaText, ctaUrl, showCta2, cta2Text, cta2Url
+    clientMode, showCta, ctaText, ctaUrl, showCta2, cta2Text, cta2Url,
+    socialGithub, socialLinkedin, socialFacebook, socialInstagram, socialYoutube,
+    socialTwitter, socialTiktok, socialPinterest, socialWhatsapp,
+    customLink1, customIcon1, customLink2, customIcon2
   } = data;
 
   const isOutlook = clientMode === 'outlook';
@@ -74,6 +93,50 @@ export const generateHTML = (data) => {
     
     ctaHtml += `</tr></table>`;
   }
+
+  // --- SOCIAL ICONS LOGIC ---
+  const activeSocials = [
+    { url: socialGithub, net: 'github', icon: getPngIcon('GitHub', primaryColor) },
+    { url: socialLinkedin, net: 'linkedin', icon: getPngIcon('LinkedIn', primaryColor) },
+    { url: socialFacebook, net: 'facebook', icon: getPngIcon('Facebook', primaryColor) },
+    { url: socialInstagram, net: 'instagram', icon: getPngIcon('Instagram', primaryColor) },
+    { url: socialYoutube, net: 'youtube', icon: getPngIcon('YouTube', primaryColor) },
+    { url: socialTwitter, net: 'twitter', icon: getPngIcon('X', primaryColor) },
+    { url: socialTiktok, net: 'tiktok', icon: getPngIcon('TikTok', primaryColor) },
+    { url: socialPinterest, net: 'pinterest', icon: getPngIcon('Pinterest', primaryColor) },
+    { url: socialWhatsapp, net: 'whatsapp', icon: getPngIcon('WhatsApp', primaryColor) },
+    { url: customLink1, net: 'custom1', icon: customIcon1 || getPngIcon('Link', primaryColor) },
+    { url: customLink2, net: 'custom2', icon: customIcon2 || getPngIcon('Link', primaryColor) }
+  ].filter(s => s.url);
+
+  let socialIconsHtml = '';
+  if (activeSocials.length > 0) {
+    socialIconsHtml = `
+    <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 10px; border-collapse: collapse;">
+      <tr>
+        ${activeSocials.map(s => `
+        <td style="padding-right: 6px;">
+          <a href="${s.url}" target="_blank" style="text-decoration: none; display: block;">
+            <img src="${s.icon}" alt="${s.net}" width="24" height="24" style="display: block; width: 24px; height: 24px; border-radius: 4px; border: 0;" />
+          </a>
+        </td>
+        `).join('')}
+      </tr>
+    </table>`;
+  }
+
+  let socialTerminalCleanHtml = '';
+  if (activeSocials.length > 0) {
+    socialTerminalCleanHtml = `
+    <br/><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> social &nbsp;&nbsp;
+    ${activeSocials.map(s => `
+      <a href="${s.url}" target="_blank" style="text-decoration: none; display: inline-block; vertical-align: middle; margin-right: 6px;">
+        <img src="${s.icon}" alt="${s.net}" width="16" height="16" style="display: block; width: 16px; height: 16px; border-radius: 3px; border: 0;" />
+      </a>
+    `).join('')}
+    `;
+  }
+  // --------------------------
 
   const disclaimerHtml = showDisclaimer && disclaimer ? `
     <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; border-collapse: collapse; width: 100%; max-width: 520px;">
@@ -139,9 +202,10 @@ export const generateHTML = (data) => {
         </td>
       </tr>` : ''}
     </table>
+    ${socialIconsHtml}
   `;
 
-  // SPLIT LAYOUT - Featuring the vertical two-tone divider line
+  // SPLIT LAYOUT
   const splitBaseHtml = `
 ${isOutlook ? '<!--[if mso]><table role="presentation" border="0" cellspacing="0" cellpadding="0" width="520"><tr><td width="' + (Number(logoWidth) + 18) + '" valign="top"><![endif]-->' : ''}
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
@@ -176,7 +240,7 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   let layoutHtml = '';
   
   if (layout === 'stacked') {
-    // STACKED (LEFT) LAYOUT - Featuring the horizontal two-tone divider line
+    // STACKED (LEFT) LAYOUT
     layoutHtml = `
 <table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; line-height: 1.45; border-collapse: collapse; text-align: left;">
   <tr>
@@ -215,9 +279,15 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
     jsonFields.push(`&nbsp;&nbsp;"web": "<a href="${website}" target="_blank" style="color: #60a5fa; text-decoration: none;">${displayWebsite}</a>"`);
     if (showLinkedin && linkedin) jsonFields.push(`&nbsp;&nbsp;"linkedin": "<a href="${linkedin}" target="_blank" style="color: #60a5fa; text-decoration: none;">${linkedin.replace(/^https?:\/\//i, '')}</a>"`);
     if (showAddress && address) jsonFields.push(`&nbsp;&nbsp;"location": "${address}"`);
+    
+    // Inject Social Links into Terminal JSON payload
+    if (activeSocials.length > 0) {
+      const socialJson = activeSocials.map(s => `&quot;${s.net}&quot;: &quot;<a href="${s.url}" target="_blank" style="color: #60a5fa; text-decoration: none;">${s.url}</a>&quot;`).join(', ');
+      jsonFields.push(`&nbsp;&nbsp;"socials": { ${socialJson} }`);
+    }
+
     const jsonString = jsonFields.join(',<br/>\n         ');
 
-    // Dynamically build the Tags array
     let tagsCodeHtml = '';
     if (showTags && (tag1 || tag2)) {
       const tagArr = [];
@@ -312,6 +382,7 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
               <span style="color: ${accentColor}; font-weight: bold;">&gt;</span> web &nbsp;&nbsp;&nbsp;&nbsp; <a href="${website}" target="_blank" style="color: ${primaryColor}; text-decoration: none;">${displayWebsite}</a>
               ${showLinkedin && linkedin ? `<br/><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="${linkedin}" target="_blank" style="color: ${primaryColor}; text-decoration: none;">LinkedIn</a>` : ''}
               ${showAddress && address ? `<br/><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> loc &nbsp;&nbsp;&nbsp;&nbsp; ${address}` : ''}
+              ${socialTerminalCleanHtml}
             </div>
             
             ${showTags && (tag1 || tag2) ? `
