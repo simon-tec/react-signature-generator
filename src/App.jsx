@@ -25,7 +25,10 @@ export default function App() {
   const [showTip, setShowTip] = useState(true);
   const [layout, setLayout] = useState('split');
   const [disclaimer, setDisclaimer] = useState("CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please delete all copies and notify the sender immediately.");
-  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  
+  // Set legal disclaimer to true by default
+  const [showDisclaimer, setShowDisclaimer] = useState(true);
+  
   const [bannerImg, setBannerImg] = useState("https://placehold.co/520x100/1e3a8a/ffffff?text=Secure+Your+Enterprise+Today");
   const [logoUrl, setLogoUrl] = useState(LOGO_URL);
   
@@ -37,9 +40,16 @@ export default function App() {
   const [textSize, setTextSize] = useState(13);
   const [logoWidth, setLogoWidth] = useState(140);
   const [clientMode, setClientMode] = useState("gmail");
+  
   const [showCta, setShowCta] = useState(true);
   const [ctaText, setCtaText] = useState("🔒 Schedule a Security Audit");
   const [ctaUrl, setCtaUrl] = useState("https://safeguardian.co.nz/book-demo");
+  
+  // New Secondary CTA State
+  const [showCta2, setShowCta2] = useState(false);
+  const [cta2Text, setCta2Text] = useState("🗓️ Schedule a Demo");
+  const [cta2Url, setCta2Url] = useState("https://www.safeguardian.co.nz/demo");
+
   const [copiedVisual, setCopiedVisual] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
@@ -51,7 +61,7 @@ export default function App() {
     tip, setTip, showTip, setShowTip, layout, setLayout, disclaimer, setDisclaimer, showDisclaimer, setShowDisclaimer,
     bannerImg, setBannerImg, logoUrl, setLogoUrl, primaryColor, setPrimaryColor, accentColor, setAccentColor,
     secondaryColor, setSecondaryColor, selectedFont, setSelectedFont, textSize, setTextSize, logoWidth, setLogoWidth, clientMode, setClientMode,
-    showCta, setShowCta, ctaText, setCtaText, ctaUrl, setCtaUrl
+    showCta, setShowCta, ctaText, setCtaText, ctaUrl, setCtaUrl, showCta2, setShowCta2, cta2Text, setCta2Text, cta2Url, setCta2Url
   };
 
   const currentHtml = generateHTML(formData);
@@ -98,10 +108,12 @@ export default function App() {
     setCompany("SafeGuardian"); setPhone("+64 9 000 1234"); setMobile("+64 21 000 1234"); setShowMobile(false);
     setEmail("mr.robot@securemail.io"); setWebsite("https://www.safeguardian.co.nz"); setLinkedin("https://nz.linkedin.com/in/mr-robot"); setShowLinkedin(false);
     setAddress("Central Auckland, Auckland, New Zealand"); setShowAddress(true); setPrimaryColor("#2a2b72"); setAccentColor("#e85626"); setSecondaryColor("#475569");
-    setSelectedFont("Inter"); setTextSize(13); setLogoWidth(140); setClientMode("gmail"); setShowCta(true); setCtaText("🔒 Schedule a Security Audit");
-    setCtaUrl("https://safeguardian.co.nz/book-demo"); setLayout("split"); setLogoUrl(LOGO_URL); setTag1("Autonomous Pentesting");
+    setSelectedFont("Inter"); setTextSize(13); setLogoWidth(140); setClientMode("gmail"); 
+    setShowCta(true); setCtaText("🔒 Schedule a Security Audit"); setCtaUrl("https://safeguardian.co.nz/book-demo"); 
+    setShowCta2(false); setCta2Text("🗓️ Schedule a Demo"); setCta2Url("https://www.safeguardian.co.nz/demo");
+    setLayout("split"); setLogoUrl(LOGO_URL); setTag1("Autonomous Pentesting");
     setTag2("Horizon3.ai Autonomous Cybersecurity"); setShowTags(true); setTip("Security tip: verify unexpected payment or login requests by phone before acting.");
-    setShowTip(true); setShowDisclaimer(false); setDisclaimer("CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please delete all copies and notify the sender immediately.");
+    setShowTip(true); setShowDisclaimer(true); setDisclaimer("CONFIDENTIALITY NOTICE: This email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please delete all copies and notify the sender immediately.");
     setBannerImg("https://placehold.co/520x100/1e3a8a/ffffff?text=Secure+Your+Enterprise+Today");
     triggerToast("Form reset to default parameters.");
   };
