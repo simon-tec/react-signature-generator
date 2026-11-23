@@ -192,13 +192,37 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   </tr>
 </table>`;
   } else if (layout === 'terminal-code') {
+    
+    // Dynamically build the JSON contact fields
+    const jsonFields = [];
+    jsonFields.push(`&nbsp;&nbsp;"phone": "${phone}"`);
+    if (showMobile && mobile) jsonFields.push(`&nbsp;&nbsp;"mobile": "${mobile}"`);
+    jsonFields.push(`&nbsp;&nbsp;"email": "<a href="mailto:${cleanEmail}" style="color: #60a5fa; text-decoration: none;">${email}</a>"`);
+    jsonFields.push(`&nbsp;&nbsp;"web": "<a href="${website}" target="_blank" style="color: #60a5fa; text-decoration: none;">${displayWebsite}</a>"`);
+    if (showLinkedin && linkedin) jsonFields.push(`&nbsp;&nbsp;"linkedin": "<a href="${linkedin}" target="_blank" style="color: #60a5fa; text-decoration: none;">${linkedin.replace(/^https?:\/\//i, '')}</a>"`);
+    if (showAddress && address) jsonFields.push(`&nbsp;&nbsp;"location": "${address}"`);
+    const jsonString = jsonFields.join(',<br/>\n         ');
+
+    // Dynamically build the Tags array
+    let tagsCodeHtml = '';
+    if (showTags && (tag1 || tag2)) {
+      const tagArr = [];
+      if (tag1) tagArr.push(`&quot;${tag1}&quot;`);
+      if (tag2) tagArr.push(`&quot;${tag2}&quot;`);
+      tagsCodeHtml = `
+      <div style="margin-top: 12px;">
+        <span style="color: ${accentColor}; font-weight: bold;">guest@${company.toLowerCase().replace(/[^a-z0-9]/g, '')}:~$</span> echo $SERVICES<br/>
+        <span style="color: #94a3b8; display: inline-block; margin-top: 5px;">[${tagArr.join(', ')}]</span>
+      </div>`;
+    }
+
     layoutHtml = `
 <table cellpadding="12" cellspacing="0" border="0" style="background-color: #0f172a; border-radius: 6px; font-family: 'Courier New', Courier, monospace; color: #cbd5e1; font-size: ${contactSize}px; border-collapse: collapse; text-align: left; width: 520px; max-width: 100%;">
   <tr>
     <td valign="top" style="border-bottom: 1px dashed #334155; padding-bottom: 10px;">
        <span style="color: ${accentColor}; font-weight: bold;">guest@${company.toLowerCase().replace(/[^a-z0-9]/g, '')}:~$</span> whoami<br/>
        <span style="color: #f8fafc; font-size: ${nameSize}px; font-weight: bold; margin-top: 5px; display: inline-block;">${name}</span><br/>
-       <span style="color: #94a3b8;">${title}</span>
+       <span style="color: #94a3b8;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}</span>
     </td>
   </tr>
   <tr>
@@ -206,12 +230,11 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
        <span style="color: ${accentColor}; font-weight: bold;">guest@${company.toLowerCase().replace(/[^a-z0-9]/g, '')}:~$</span> cat contact.json<br/>
        <div style="padding-top: 5px; color: #a5b4fc;">
          {<br/>
-         &nbsp;&nbsp;"phone": "${phone}",<br/>
-         &nbsp;&nbsp;"email": "<a href="mailto:${cleanEmail}" style="color: #60a5fa; text-decoration: none;">${email}</a>",<br/>
-         &nbsp;&nbsp;"web": "<a href="${website}" target="_blank" style="color: #60a5fa; text-decoration: none;">${displayWebsite}</a>"<br/>
+         ${jsonString}<br/>
          }
        </div>
-       ${ctaHtml}
+       ${tagsCodeHtml}
+       ${ctaHtml ? `<div style="margin-top: 12px;">${ctaHtml}</div>` : ''}
     </td>
   </tr>
 </table>`;
@@ -252,7 +275,7 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   } else if (layout === 'terminal-clean') {
     const monospaced = `"Consolas", "Menlo", "Courier New", monospace`;
     layoutHtml = `
-<table cellpadding="0" cellspacing="0" border="0" style="font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 520px; font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
   <tr>
     <td valign="top" style="padding-bottom: 12px;">
       <a href="${website}" target="_blank" style="text-decoration: none; display: block;">
@@ -262,16 +285,19 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
   </tr>
   <tr>
     <td valign="top">
-      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse;">
         <tr>
           <td bgcolor="#f8fafc" style="background-color: #f8fafc; border-left: 3px solid ${accentColor}; padding: 12px 20px 12px 16px;">
             <div style="font-size: ${nameSize}px; font-weight: 700; color: ${primaryColor}; margin-bottom: 2px;">${name}</div>
-            <div style="font-size: ${contactSize}px; color: ${secondaryColor}; margin-bottom: 10px;">${title}${company ? ` &bull; ${company}` : ''}</div>
+            <div style="font-size: ${contactSize}px; color: ${secondaryColor}; margin-bottom: 10px;">${title}${department ? ` <span style="color: ${accentColor}; font-weight: bold;">|</span> ${department}` : ''}${company ? ` &bull; ${company}` : ''}</div>
             
             <div style="font-family: ${monospaced}; font-size: ${contactSize}px; color: ${primaryColor}; line-height: 1.6;">
               <span style="color: ${accentColor}; font-weight: bold;">&gt;</span> tel &nbsp;&nbsp;&nbsp;&nbsp; <a href="tel:${cleanPhone}" style="color: ${primaryColor}; text-decoration: none;">${phone}</a><br/>
+              ${showMobile && mobile ? `<span style="color: ${accentColor}; font-weight: bold;">&gt;</span> mob &nbsp;&nbsp;&nbsp;&nbsp; <a href="tel:${cleanMobile}" style="color: ${primaryColor}; text-decoration: none;">${mobile}</a><br/>` : ''}
               <span style="color: ${accentColor}; font-weight: bold;">&gt;</span> email &nbsp;&nbsp; <a href="mailto:${cleanEmail}" style="color: ${primaryColor}; text-decoration: none;">${email}</a><br/>
               <span style="color: ${accentColor}; font-weight: bold;">&gt;</span> web &nbsp;&nbsp;&nbsp;&nbsp; <a href="${website}" target="_blank" style="color: ${primaryColor}; text-decoration: none;">${displayWebsite}</a>
+              ${showLinkedin && linkedin ? `<br/><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> in &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="${linkedin}" target="_blank" style="color: ${primaryColor}; text-decoration: none;">LinkedIn</a>` : ''}
+              ${showAddress && address ? `<br/><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> loc &nbsp;&nbsp;&nbsp;&nbsp; ${address}` : ''}
             </div>
             
             ${showTags && (tag1 || tag2) ? `
@@ -279,7 +305,7 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
               ${tag1 ? `<div style="font-family: ${monospaced}; font-size: ${contactSize}px; color: ${primaryColor}; line-height: 1.6;"><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> ${tag1}</div>` : ''}
               ${tag2 ? `<div style="font-family: ${monospaced}; font-size: ${contactSize}px; color: ${primaryColor}; line-height: 1.6;"><span style="color: ${accentColor}; font-weight: bold;">&gt;</span> ${tag2}</div>` : ''}
             </div>` : ''}
-            ${ctaHtml}
+            ${ctaHtml ? `<div style="margin-top: 10px;">${ctaHtml}</div>` : ''}
           </td>
         </tr>
       </table>
