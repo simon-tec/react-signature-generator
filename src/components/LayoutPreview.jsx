@@ -17,7 +17,6 @@ export default function LayoutPreview({
   const [previewBg, setPreviewBg] = useState("light");
   const previewRef = useRef(null);
 
-  // New Feature: Download Raw HTML
   const handleDownloadHtml = () => {
     const blob = new Blob([currentHtml], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
@@ -65,7 +64,7 @@ export default function LayoutPreview({
                   <span className="w-2.5 h-2.5 rounded-full bg-red-400"></span><span className="w-2.5 h-2.5 rounded-full bg-yellow-400"></span><span className="w-2.5 h-2.5 rounded-full bg-green-400"></span>
                   <span className="ml-2 font-mono text-[11px]">Re: SafeGuardian Enterprise Security Audit</span>
                 </div>
-                <span className="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-semibold">{clientMode === 'outlook' ? 'Outlook (MSO)' : 'Gmail Compliant'}</span>
+                <span className="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-semibold">{clientMode === 'outlook' ? 'Classic Outlook (MSO)' : 'Universal / Web'}</span>
               </div>
               <div className={`p-6 sm:p-8 rounded-b-xl border shadow-lg transition-all ${previewBg === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
                 <div className="text-xs text-slate-400 pb-4 mb-4 border-b border-slate-100/10 space-y-1">
@@ -95,7 +94,7 @@ export default function LayoutPreview({
         <div className="bg-slate-50 border-t border-slate-200 px-6 py-4 flex items-center justify-between flex-wrap gap-3">
           <div className="text-xs text-slate-500 flex items-center gap-1.5 max-w-sm">
             <Info className="w-4 h-4 text-blue-600 flex-shrink-0" />
-            <span>{clientMode === 'outlook' ? 'Includes MSO width tables to prevent column breaks in Microsoft Outlook.' : 'Standard responsive HTML table optimized for Gmail & Google Workspace.'}</span>
+            <span>{clientMode === 'outlook' ? 'Includes MSO width tables to prevent column breaks in Microsoft Outlook.' : 'Standard responsive HTML table optimised for Gmail & Google Workspace.'}</span>
           </div>
           <div className="flex items-center gap-2">
             <button onClick={handleDownloadHtml} className="px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1.5">
@@ -112,8 +111,8 @@ export default function LayoutPreview({
         </div>
       </div>
       
-      {/* New Tabs Feature Renders Here */}
-      <InstallTabs />
+      {/* New Tabs Feature Renders Here, receiving the clientMode to control alerts */}
+      <InstallTabs clientMode={clientMode} />
     </div>
   );
 }
