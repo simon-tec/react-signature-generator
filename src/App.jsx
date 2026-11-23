@@ -5,18 +5,19 @@ import FormControls from './components/FormControls';
 import LayoutPreview from './components/LayoutPreview';
 
 export default function App() {
-  const [name, setName] = useState("Alex Morgan");
-  const [title, setTitle] = useState("Senior Security Advisor");
-  const [department, setDepartment] = useState("Enterprise Risk & Compliance");
-  const [phone, setPhone] = useState("+64 9 300 1234");
-  const [mobile, setMobile] = useState("+64 21 123 4567");
+  // INITIAL STATE UPDATE: Defaults now match requested placeholders
+  const [name, setName] = useState("MR. Robot");
+  const [title, setTitle] = useState("Senior Cybersecurity Engineer");
+  const [department, setDepartment] = useState("Allsafe Cybersecurity");
+  const [phone, setPhone] = useState("+64 9 000 1234");
+  const [mobile, setMobile] = useState("+64 21 000 1234");
   const [showMobile, setShowMobile] = useState(false);
-  const [email, setEmail] = useState("alex.morgan@safeguardian.co.nz");
-  const [website, setWebsite] = useState("https://safeguardian.co.nz");
+  const [email, setEmail] = useState("mr.robot@securemail.io");
+  const [website, setWebsite] = useState("https://www.safeguardian.co.nz");
   const [address, setAddress] = useState("Central Auckland, Auckland, New Zealand");
   const [showAddress, setShowAddress] = useState(true);
   const [company, setCompany] = useState("SafeGuardian");
-  const [linkedin, setLinkedin] = useState("https://linkedin.com/company/safeguardian");
+  const [linkedin, setLinkedin] = useState("https://nz.linkedin.com/in/mr-robot");
   const [showLinkedin, setShowLinkedin] = useState(false);
   const [tag1, setTag1] = useState("Autonomous Pentesting");
   const [tag2, setTag2] = useState("Horizon3.ai Autonomous Cybersecurity");
