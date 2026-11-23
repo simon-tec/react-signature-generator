@@ -3,7 +3,6 @@ import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate }
 import { FONT_OPTIONS } from '../utils/signatureGenerator';
 
 export default function FormControls({ data }) {
-  // Destructure everything from the shared state object
   const {
     name, setName, title, setTitle, department, setDepartment, company, setCompany,
     phone, setPhone, mobile, setMobile, showMobile, setShowMobile, email, setEmail,
@@ -67,21 +66,22 @@ export default function FormControls({ data }) {
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
             <Layers className="w-3.5 h-3.5 text-blue-600" /> Target Email Client
           </span>
+          <span className="text-[11px] text-slate-400">Layout Optimisation</span>
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           <label className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${clientMode === 'gmail' ? 'border-blue-600 bg-blue-50/50 ring-1 ring-blue-600' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold text-slate-900">Gmail / Web</span>
+              <span className="text-xs font-semibold text-slate-900">Universal (Modern)</span>
               <input type="radio" name="clientMode" value="gmail" checked={clientMode === 'gmail'} onChange={(e) => setClientMode(e.target.value)} className="accent-blue-600" />
             </div>
-            <span className="text-[11px] text-slate-500 leading-tight">Standard HTML table with clean inline styles</span>
+            <span className="text-[11px] text-slate-500 leading-tight">Optimised for Gmail, Apple Mail, New Outlook, and Outlook (Mac).</span>
           </label>
           <label className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${clientMode === 'outlook' ? 'border-blue-600 bg-blue-50/50 ring-1 ring-blue-600' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold text-slate-900">Outlook Desktop</span>
+              <span className="text-xs font-semibold text-slate-900">Classic Outlook (Windows)</span>
               <input type="radio" name="clientMode" value="outlook" checked={clientMode === 'outlook'} onChange={(e) => setClientMode(e.target.value)} className="accent-blue-600" />
             </div>
-            <span className="text-[11px] text-slate-500 leading-tight">MSO conditional tables for Word rendering engine</span>
+            <span className="text-[11px] text-slate-500 leading-tight">Includes MSO conditional tables for older Microsoft Word rendering engines.</span>
           </label>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function FormControls({ data }) {
         </div>
       </div>
 
-      {/* Branding & Styling Customizer */}
+      {/* Branding & Styling Customiser */}
       <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-4">
         <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3 flex items-center gap-2">
           <Palette className="w-4 h-4 text-blue-600" /> Branding & Typography
@@ -126,14 +126,14 @@ export default function FormControls({ data }) {
           
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-medium text-slate-700 mb-1">Primary Color (Navy)</label>
+              <label className="block font-medium text-slate-700 mb-1">Primary Colour (Navy)</label>
               <div className="flex items-center gap-2">
                 <input type="color" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} className="w-9 h-9 p-0.5 border border-slate-300 rounded-lg cursor-pointer bg-white" />
                 <input type="text" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} className="w-full px-2 py-1.5 border border-slate-300 rounded-lg font-mono uppercase text-[11px]" />
               </div>
             </div>
             <div>
-              <label className="block font-medium text-slate-700 mb-1">Accent Color (Orange)</label>
+              <label className="block font-medium text-slate-700 mb-1">Accent Colour (Orange)</label>
               <div className="flex items-center gap-2">
                 <input type="color" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="w-9 h-9 p-0.5 border border-slate-300 rounded-lg cursor-pointer bg-white" />
                 <input type="text" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="w-full px-2 py-1.5 border border-slate-300 rounded-lg font-mono uppercase text-[11px]" />
