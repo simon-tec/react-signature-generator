@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Eye, Code, Sun, Moon, Info, Copy, Check, Download } from 'lucide-react';
+import { Eye, Code, Sun, Moon, Info, Copy, Check, Download, Layers } from 'lucide-react';
 import InstallTabs from './InstallTabs';
 
 export default function LayoutPreview({ 
@@ -11,7 +11,8 @@ export default function LayoutPreview({
   handleCopyCode,
   copiedVisual,
   copiedCode,
-  triggerToast
+  triggerToast,
+  updateConfig
 }) {
   const [activeTab, setActiveTab] = useState("visual");
   const [previewBg, setPreviewBg] = useState("light");
@@ -30,7 +31,7 @@ export default function LayoutPreview({
 
   return (
     <div className="flex flex-col sticky top-24 self-start">
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col mb-6">
         
         {/* Top Toolbar */}
         <div className="bg-slate-50 border-b border-slate-200 px-6 py-3 flex items-center justify-between flex-wrap gap-3">
@@ -108,6 +109,29 @@ export default function LayoutPreview({
               <span>{copiedVisual ? "Copied Formatted!" : "Copy Formatted"}</span>
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Target Email Client Selector */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-6 p-6">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-4 flex items-center gap-2">
+          <Layers className="w-4 h-4 text-[#2a2b72]" /> Target Email Client Output
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label className={`flex flex-col p-4 rounded-xl border cursor-pointer transition-all ${clientMode === 'gmail' ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-bold text-slate-900">Universal (Modern)</span>
+              <input type="radio" name="clientModeRight" value="gmail" checked={clientMode === 'gmail'} onChange={(e) => updateConfig('clientMode', e.target.value)} className="accent-[#2a2b72] w-4 h-4" />
+            </div>
+            <span className="text-xs text-slate-500 leading-relaxed">Optimised for Gmail, Apple Mail, Webmail, and New Outlook for Mac/Windows.</span>
+          </label>
+          <label className={`flex flex-col p-4 rounded-xl border cursor-pointer transition-all ${clientMode === 'outlook' ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-bold text-slate-900">Classic Outlook</span>
+              <input type="radio" name="clientModeRight" value="outlook" checked={clientMode === 'outlook'} onChange={(e) => updateConfig('clientMode', e.target.value)} className="accent-[#2a2b72] w-4 h-4" />
+            </div>
+            <span className="text-xs text-slate-500 leading-relaxed">Includes specific MSO conditional tables for older Microsoft Word rendering engines.</span>
+          </label>
         </div>
       </div>
       
