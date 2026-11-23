@@ -29,7 +29,7 @@ export default function LayoutPreview({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col sticky top-24 self-start">
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
         
         {/* Top Toolbar */}
