@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact, Image } from 'lucide-react';
+import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact, Image, Link } from 'lucide-react';
 import { FONT_OPTIONS } from '../utils/signatureGenerator';
 import { Accordion, TextInput, TextArea, Toggle, ColorPicker } from './FormElements';
 
@@ -88,6 +88,41 @@ export default function FormControls({ config, updateConfig }) {
             <Toggle checked={config.showAddress} onChange={(val) => updateConfig('showAddress', val)} />
           </div>
           <TextInput value={config.address} onChange={(val) => updateConfig('address', val)} placeholder="Central Auckland, Auckland, New Zealand" disabled={!config.showAddress} />
+        </div>
+      </Accordion>
+
+      <Accordion title="Social Links" icon={Link}>
+        <div className="text-[11px] text-slate-500 mb-4 pb-4 border-b border-slate-100">
+          Social icons only appear when a URL is provided.
+        </div>
+        
+        <div className="space-y-4">
+          <TextInput label="GitHub" value={config.socialGithub} onChange={(val) => updateConfig('socialGithub', val)} placeholder="https://github.com/..." fontMono={true} />
+          <TextInput label="LinkedIn" value={config.socialLinkedin} onChange={(val) => updateConfig('socialLinkedin', val)} placeholder="https://linkedin.com/in/..." fontMono={true} />
+          <TextInput label="Facebook" value={config.socialFacebook} onChange={(val) => updateConfig('socialFacebook', val)} placeholder="https://facebook.com/..." fontMono={true} />
+          <TextInput label="Instagram" value={config.socialInstagram} onChange={(val) => updateConfig('socialInstagram', val)} placeholder="https://instagram.com/..." fontMono={true} />
+          <TextInput label="YouTube" value={config.socialYoutube} onChange={(val) => updateConfig('socialYoutube', val)} placeholder="https://youtube.com/@..." fontMono={true} />
+          <TextInput label="Twitter / X" value={config.socialTwitter} onChange={(val) => updateConfig('socialTwitter', val)} placeholder="https://x.com/..." fontMono={true} />
+          <TextInput label="TikTok" value={config.socialTiktok} onChange={(val) => updateConfig('socialTiktok', val)} placeholder="https://tiktok.com/@..." fontMono={true} />
+          <TextInput label="Pinterest" value={config.socialPinterest} onChange={(val) => updateConfig('socialPinterest', val)} placeholder="https://pinterest.com/..." fontMono={true} />
+          <TextInput label="WhatsApp" value={config.socialWhatsapp} onChange={(val) => updateConfig('socialWhatsapp', val)} placeholder="https://wa.me/..." fontMono={true} />
+        </div>
+
+        <div className="pt-5 mt-5 border-t border-slate-100">
+          <h4 className="text-[11px] font-bold text-[#2a2b72] uppercase tracking-wider mb-4">Custom Icons</h4>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <TextInput label="Custom Link 1" value={config.customLink1} onChange={(val) => updateConfig('customLink1', val)} placeholder="https://..." fontMono={true} />
+              <TextInput label="Icon Image URL" value={config.customIcon1} onChange={(val) => updateConfig('customIcon1', val)} placeholder="https://example.com/icon.png" fontMono={true} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <TextInput label="Custom Link 2" value={config.customLink2} onChange={(val) => updateConfig('customLink2', val)} placeholder="https://..." fontMono={true} />
+              <TextInput label="Icon Image URL" value={config.customIcon2} onChange={(val) => updateConfig('customIcon2', val)} placeholder="https://example.com/icon.png" fontMono={true} />
+            </div>
+            <div className="text-[10px] text-slate-500 leading-tight">
+              For any network not listed above. Use a square PNG or JPEG hosted at a public URL; it is shown at 24x24px.
+            </div>
+          </div>
         </div>
       </Accordion>
 
