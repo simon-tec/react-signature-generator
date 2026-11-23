@@ -12,6 +12,7 @@ export default function FormControls({ data }) {
     primaryColor, setPrimaryColor, accentColor, setAccentColor, secondaryColor, setSecondaryColor,
     selectedFont, setSelectedFont, textSize, setTextSize, logoUrl, setLogoUrl, logoWidth, setLogoWidth,
     showCta, setShowCta, ctaText, setCtaText, ctaUrl, setCtaUrl,
+    showCta2, setShowCta2, cta2Text, setCta2Text, cta2Url, setCta2Url,
     showDisclaimer, setShowDisclaimer, disclaimer, setDisclaimer,
     showTags, setShowTags, tag1, setTag1, tag2, setTag2,
     showTip, setShowTip, tip, setTip
@@ -196,6 +197,19 @@ export default function FormControls({ data }) {
               <div className="space-y-2 mt-2 pl-2 border-l-2 border-[#2a2b72]/20">
                 <input type="text" value={ctaText} onChange={(e) => setCtaText(e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs" />
                 <input type="text" value={ctaUrl} onChange={(e) => setCtaUrl(e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-mono" />
+              </div>
+            )}
+          </div>
+          
+          <div className="pt-3 mt-3 border-t border-slate-100">
+            <div className="flex items-center justify-between mb-2">
+              <label className="font-medium text-slate-800 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-[#2a2b72]" /> Secondary CTA Button</label>
+              <input type="checkbox" checked={showCta2} onChange={(e) => setShowCta2(e.target.checked)} className="rounded border-slate-300 text-[#2a2b72] focus:ring-0 cursor-pointer" />
+            </div>
+            {showCta2 && (
+              <div className="space-y-2 mt-2 pl-2 border-l-2 border-[#2a2b72]/20">
+                <input type="text" value={cta2Text} onChange={(e) => setCta2Text(e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs" />
+                <input type="text" value={cta2Url} onChange={(e) => setCta2Url(e.target.value)} className="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs font-mono" />
               </div>
             )}
           </div>
