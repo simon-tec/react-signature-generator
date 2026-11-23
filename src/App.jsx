@@ -5,7 +5,6 @@ import FormControls from './components/FormControls';
 import LayoutPreview from './components/LayoutPreview';
 
 export default function App() {
-  // INITIAL STATE UPDATE: Defaults now match requested placeholders
   const [name, setName] = useState("MR. Robot");
   const [title, setTitle] = useState("Senior Cybersecurity Engineer");
   const [department, setDepartment] = useState("Allsafe Cybersecurity");
@@ -107,32 +106,35 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-800 font-sans flex flex-col antialiased">
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col antialiased">
+      {/* Brand Header */}
+      <header className="bg-[#2a2b72] sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-900 flex items-center justify-center text-white shadow-md">
-              <Shield className="w-5 h-5 text-blue-400" />
+            <div className="w-10 h-10 rounded-xl bg-[#1e1e52] flex items-center justify-center text-white shadow-inner">
+              <Shield className="w-5 h-5 text-[#e85626]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-base font-bold text-slate-900 leading-none">SafeGuardian</h1>
-                <span className="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                <h1 className="text-base font-bold text-white leading-none tracking-tight">SafeGuardian</h1>
+                <span className="bg-[#e85626]/20 text-[#ff8c66] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-[#e85626]/30">
                   Signature Generator
                 </span>
               </div>
-              <p className="text-xs text-slate-500 mt-0.5">Gmail & Outlook Compliant HTML Studio</p>
+              <p className="text-xs text-[#a0a1d6] mt-0.5 font-medium">Enterprise Email Setup Tool</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={handleReset} className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors">
+            <button onClick={handleReset} className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white hover:text-white border border-[#4041a6] rounded-lg hover:bg-[#4041a6] transition-colors">
               <RotateCcw className="w-3.5 h-3.5" /> Reset
             </button>
           </div>
         </div>
+        {/* Diagonal styling element from SafeGuardian brand */}
+        <div className="h-1 w-full bg-gradient-to-r from-[#e85626] to-[#f4845f]"></div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
         <div className="lg:col-span-5">
           <FormControls data={formData} />
         </div>
