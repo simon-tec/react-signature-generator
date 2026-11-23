@@ -15,7 +15,8 @@ export const generateHTML = (data) => {
   const {
     name, title, department, phone, mobile, showMobile, email, website, address, showAddress,
     company, linkedin, showLinkedin, tag1, tag2, showTags, tip, showTip, layout, disclaimer, showDisclaimer,
-    bannerImg, logoUrl, primaryColor, accentColor, secondaryColor, selectedFont, textSize, logoWidth,
+    bannerType, bannerImgUrl, bannerLinkUrl, bannerHtmlText, bannerBgColor, bannerTextColor,
+    logoUrl, primaryColor, accentColor, secondaryColor, selectedFont, textSize, logoWidth,
     clientMode, showCta, ctaText, ctaUrl, showCta2, cta2Text, cta2Url
   } = data;
 
@@ -214,6 +215,40 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
     </td>
   </tr>
 </table>`;
+  } else if (layout === 'grid-block') {
+    const monospaced = `"Consolas", "Menlo", "Courier New", monospace`;
+    layoutHtml = `
+<table width="480" cellpadding="0" cellspacing="0" border="0" style="width: 480px; max-width: 100%; font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
+  <tr>
+    <td colspan="2">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td width="120" style="width: 120px; border-top: 4px solid ${accentColor}; font-size: 0; line-height: 0;">&nbsp;</td>
+          <td style="border-top: 4px solid ${primaryColor}; font-size: 0; line-height: 0;">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding: 16px 0 6px 0;">
+      <a href="${website}" target="_blank" style="text-decoration: none; display: block;">
+        <img src="${logoUrl}" alt="${company}" width="${logoWidth}" style="display: block; width: ${logoWidth}px; max-width: ${logoWidth}px; height: auto; border: 0; outline: none; text-decoration: none;" />
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" style="padding: 10px 28px 0 0; width: 50%;">
+      <div style="font-size: ${nameSize + 2}px; font-weight: 700; color: #1e293b; margin-bottom: 2px;">${name}</div>
+      <div style="font-size: ${titleSize}px; color: ${secondaryColor};">${title}</div>
+      ${company ? `<div style="font-size: ${baseSize}px; font-weight: 600; color: ${primaryColor}; margin-top: 2px;">${company}</div>` : ''}
+    </td>
+    <td valign="top" style="padding: 10px 0 0 0; width: 50%;">
+      ${contactDetailsHtml}
+    </td>
+  </tr>
+  ${showTags && (tag1 || tag2) ? `<tr><td colspan="2" style="padding-top: 12px;">${tagsHtml}</td></tr>` : ''}
+  ${(showCta || showCta2) ? `<tr><td colspan="2" style="padding-top: 12px;">${ctaHtml}</td></tr>` : ''}
+</table>`;
   } else if (layout === 'terminal-clean') {
     const monospaced = `"Consolas", "Menlo", "Courier New", monospace`;
     layoutHtml = `
@@ -251,54 +286,34 @@ ${isOutlook ? '<!--[if mso]></td></tr></table><![endif]-->' : ''}
     </td>
   </tr>
 </table>`;
-  } else if (layout === 'banner-img') {
-    layoutHtml = `
-${splitBaseHtml}
-<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; border-collapse: collapse; width: 100%; max-width: 520px;">
-  <tr>
-    <td>
-      <a href="${ctaUrl}" target="_blank" style="text-decoration: none;">
-        <img src="${bannerImg}" alt="Promotional Banner" style="display: block; width: 100%; max-width: 520px; height: auto; border-radius: 6px; border: 0;" />
-      </a>
-    </td>
-  </tr>
-</table>`;
-  } else if (layout === 'banner-html') {
-    layoutHtml = `
-<table width="480" cellpadding="0" cellspacing="0" border="0" style="width: 480px; max-width: 100%; font-family: ${currentFontStack}; font-size: ${baseSize}px; color: ${primaryColor}; border-collapse: collapse; text-align: left;">
-  <tr>
-    <td colspan="2">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse;">
-        <tr>
-          <td width="120" style="width: 120px; border-top: 4px solid ${accentColor}; font-size: 0; line-height: 0;">&nbsp;</td>
-          <td style="border-top: 4px solid ${primaryColor}; font-size: 0; line-height: 0;">&nbsp;</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" style="padding: 16px 0 6px 0;">
-      <a href="${website}" target="_blank" style="text-decoration: none; display: block;">
-        <img src="${logoUrl}" alt="${company}" width="${logoWidth}" style="display: block; width: ${logoWidth}px; max-width: ${logoWidth}px; height: auto; border: 0; outline: none; text-decoration: none;" />
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" style="padding: 10px 28px 0 0; width: 50%;">
-      <div style="font-size: ${nameSize + 2}px; font-weight: 700; color: #1e293b; margin-bottom: 2px;">${name}</div>
-      <div style="font-size: ${titleSize}px; color: ${secondaryColor};">${title}</div>
-      ${company ? `<div style="font-size: ${baseSize}px; font-weight: 600; color: ${primaryColor}; margin-top: 2px;">${company}</div>` : ''}
-    </td>
-    <td valign="top" style="padding: 10px 0 0 0; width: 50%;">
-      ${contactDetailsHtml}
-    </td>
-  </tr>
-  ${showTags && (tag1 || tag2) ? `<tr><td colspan="2" style="padding-top: 12px;">${tagsHtml}</td></tr>` : ''}
-  ${showCta ? `<tr><td colspan="2" style="padding-top: 12px;">${ctaHtml}</td></tr>` : ''}
-</table>`;
   } else {
     layoutHtml = splitBaseHtml; // Default split layout
   }
 
-  return `${darkModeStyles}\n${layoutHtml}\n${tipHtml}\n${disclaimerHtml}`.trim();
+  // Appended Modular Banner Logic
+  let bannerHtml = '';
+  if (bannerType === 'image' && bannerImgUrl) {
+    const imgTag = `<img src="${bannerImgUrl}" alt="Promotional Banner" style="display: block; width: 100%; max-width: 520px; height: auto; border-radius: 6px; border: 0;" />`;
+    bannerHtml = `
+<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; border-collapse: collapse; width: 100%; max-width: 520px;">
+  <tr>
+    <td>
+      ${bannerLinkUrl ? `<a href="${bannerLinkUrl}" target="_blank" style="text-decoration: none;">${imgTag}</a>` : imgTag}
+    </td>
+  </tr>
+</table>`;
+  } else if (bannerType === 'html' && bannerHtmlText) {
+    bannerHtml = `
+<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px; border-collapse: collapse; width: 100%; max-width: 520px;">
+  <tr>
+    <td style="background-color: ${bannerBgColor}; border-radius: 6px; padding: 12px 20px; text-align: center;">
+      <span style="font-family: ${currentFontStack}; font-size: ${baseSize}px; font-weight: 600; color: ${bannerTextColor}; text-decoration: none; display: inline-block;">
+        ${bannerHtmlText}
+      </span>
+    </td>
+  </tr>
+</table>`;
+  }
+
+  return `${darkModeStyles}\n${layoutHtml}\n${bannerHtml}\n${tipHtml}\n${disclaimerHtml}`.trim();
 };
