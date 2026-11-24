@@ -99,4 +99,12 @@ export const ColorPicker = ({ label, value, onChange }) => (
         value={value} 
         onChange={(e) => onChange(e.target.value)} 
         placeholder="#000000"
-        className="w-full px-2 py-1.5 border
+        className="w-full px-2 py-1.5 border rounded-lg font-mono uppercase text-[11px] transition-all outline-none
+          bg-white text-slate-900 border-slate-300
+          hover:border-[#2a2b72]/60 hover:bg-slate-50/40
+          focus-visible:border-[#2a2b72] focus-visible:ring-2 focus-visible:ring-[#2a2b72]/20
+          placeholder:text-slate-400 placeholder-shown:bg-slate-50/50" 
+      />
+    </div>
+  </div>
+);
