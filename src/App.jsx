@@ -116,7 +116,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col antialiased">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col antialiased relative">
+      {/* Subtle Background Watermark */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden z-0 flex items-end justify-end p-8 sm:p-12 select-none">
+        <img
+          src={LOGO_URL}
+          alt=""
+          aria-hidden="true"
+          className="w-[420px] sm:w-[560px] max-w-none opacity-[0.04] grayscale transform -rotate-6 translate-x-12 translate-y-6"
+        />
+      </div>
+
       <header className="bg-[#2a2b72] sticky top-0 z-30 shadow-md">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
