@@ -17,89 +17,83 @@ export default function FormControls({ config, updateConfig }) {
   return (
     <div className="flex flex-col">
       
-      {/* 1. SIGNATURE LAYOUT */}
-      <Accordion title="Signature Layout" icon={LayoutTemplate} defaultOpen={true}>
-        <div className="grid grid-cols-2 gap-2.5">
-          {[
-            { id: 'split', label: 'Split' },
-            { id: 'stacked', label: 'Stacked (Left)' },
-            { id: 'terminal-code', label: 'Terminal (Code)' },
-            { id: 'terminal-clean', label: 'Terminal (Clean)' },
-            { id: 'grid-block', label: 'Stacked (Grid Block)', fullWidth: true }
-          ].map((type) => {
-            const isSelected = config.layout === type.id;
-            return (
-              <label 
-                key={type.id}
-                className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${
-                  type.fullWidth ? 'col-span-2' : ''
-                } ${
-                  isSelected 
-                    ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' 
-                    : 'border-slate-200 hover:border-slate-300 bg-slate-50/70'
-                }`}
-              >
-                <span className={`text-xs font-semibold ${isSelected ? 'text-[#2a2b72]' : 'text-slate-800'}`}>
-                  {type.label}
-                </span>
-                <input 
-                  type="radio" 
-                  name="layout" 
-                  value={type.id} 
-                  checked={isSelected} 
-                  onChange={(e) => updateConfig('layout', e.target.value)} 
-                  className="sr-only" 
-                />
-                <span className={`w-4 h-4 rounded-full flex items-center justify-center transition-all flex-shrink-0 ${
-                  isSelected 
-                    ? 'bg-[#2a2b72] border border-[#2a2b72] text-white' 
-                    : 'bg-white border border-slate-300'
-                }`}>
-                  {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                </span>
-              </label>
-            );
-          })}
-        </div>
-      </Accordion>
-
-      {/* 2. PERSONAL DETAILS */}
+      {/* 1. PERSONAL DETAILS */}
       <Accordion title="Personal Details" icon={User} defaultOpen={true}>
-        <TextInput label="Full Name" value={config.name} onChange={(val) => updateConfig('name', val)} placeholder="MR. Robot" />
-        <TextInput label="Job Title" value={config.title} onChange={(val) => updateConfig('title', val)} placeholder="Senior Cybersecurity Engineer" />
-        <TextInput label="Department" value={config.department} onChange={(val) => updateConfig('department', val)} placeholder="Allsafe Cybersecurity" />
-        <TextInput label="Company Name" value={config.company} onChange={(val) => updateConfig('company', val)} placeholder="SafeGuardian" />
+        <TextInput label="Full Name" value={config.name} onChange={(val) => updateConfig('name', val)} placeholder="Enter your full name..." />
+        <TextInput label="Job Title" value={config.title} onChange={(val) => updateConfig('title', val)} placeholder="Enter your job title..." />
+        <TextInput label="Department" value={config.department} onChange={(val) => updateConfig('department', val)} placeholder="Enter your department or team..." />
+        <TextInput label="Company Name" value={config.company} onChange={(val) => updateConfig('company', val)} placeholder="Enter your company name..." />
       </Accordion>
 
-      {/* 3. CONTACT INFORMATION */}
-      <Accordion title="Contact Information" icon={Contact}>
-        <TextInput label="Phone (primary)" value={config.phone} onChange={(val) => updateConfig('phone', val)} placeholder="+64 9 000 1234" />
+      {/* 2. CONTACT INFORMATION */}
+      <Accordion title="Contact Information" icon={Contact} defaultOpen={true}>
+        <TextInput label="Phone (primary)" value={config.phone} onChange={(val) => updateConfig('phone', val)} placeholder="Enter primary phone number..." />
         
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="font-medium text-slate-700 text-xs">Phone (secondary)</label>
             <Toggle checked={config.showMobile} onChange={(val) => updateConfig('showMobile', val)} />
           </div>
-          <TextInput value={config.mobile} onChange={(val) => updateConfig('mobile', val)} placeholder="+64 21 000 1234" disabled={!config.showMobile} />
+          <TextInput value={config.mobile} onChange={(val) => updateConfig('mobile', val)} placeholder="Enter mobile or secondary phone..." disabled={!config.showMobile} />
         </div>
 
-        <TextInput label="Email Address" type="email" value={config.email} onChange={(val) => updateConfig('email', val)} placeholder="mr.robot@securemail.io" />
-        <TextInput label="Website URL" value={config.website} onChange={(val) => updateConfig('website', val)} placeholder="https://www.safeguardian.co.nz" />
-        
-        <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <label className="font-medium text-slate-700 text-xs">LinkedIn URL</label>
-            <Toggle checked={config.showLinkedin} onChange={(val) => updateConfig('showLinkedin', val)} />
-          </div>
-          <TextInput value={config.linkedin} onChange={(val) => updateConfig('linkedin', val)} placeholder="https://nz.linkedin.com/in/mr-robot" disabled={!config.showLinkedin} />
-        </div>
+        <TextInput label="Email Address" type="email" value={config.email} onChange={(val) => updateConfig('email', val)} placeholder="Enter your work email address..." />
+        <TextInput label="Website URL" value={config.website} onChange={(val) => updateConfig('website', val)} placeholder="Enter the website URL here..." />
 
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="font-medium text-slate-700 text-xs">Location</label>
             <Toggle checked={config.showAddress} onChange={(val) => updateConfig('showAddress', val)} />
           </div>
-          <TextInput value={config.address} onChange={(val) => updateConfig('address', val)} placeholder="Central Auckland, Auckland, New Zealand" disabled={!config.showAddress} />
+          <TextInput value={config.address} onChange={(val) => updateConfig('address', val)} placeholder="Enter your office city or address..." disabled={!config.showAddress} />
+        </div>
+      </Accordion>
+
+      {/* 3. SIGNATURE LAYOUT */}
+      <Accordion title="Signature Layout" icon={LayoutTemplate} defaultOpen={true}>
+        <div className="grid grid-cols-2 gap-2.5">
+          {[
+            { id: 'split', label: 'Classic Split', desc: 'Logo left, details right' },
+            { id: 'stacked', label: 'Vertical Stack', desc: 'Single-column top-to-bottom' },
+            { id: 'grid-block', label: 'Executive Grid', desc: 'Top logo, two-column details' },
+            { id: 'terminal-clean', label: 'Cyber Minimal', desc: 'Light monospace accent card' },
+            { id: 'terminal-code', label: 'Dev Terminal', desc: 'Dark CLI & JSON payload' },
+            { id: 'compact-inline', label: 'Compact Inline', desc: 'Horizontal text-first reply' }
+          ].map((type) => {
+            const isSelected = config.layout === type.id;
+            return (
+              <label 
+                key={type.id}
+                className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-[#2a2b72]/30 ${
+                  isSelected 
+                    ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' 
+                    : 'border-slate-200 hover:border-[#2a2b72]/50 hover:bg-slate-50 bg-white'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2 mb-0.5">
+                  <span className={`text-xs font-semibold ${isSelected ? 'text-[#2a2b72]' : 'text-slate-900'}`}>
+                    {type.label}
+                  </span>
+                  <input 
+                    type="radio" 
+                    name="layout" 
+                    value={type.id} 
+                    checked={isSelected} 
+                    onChange={(e) => updateConfig('layout', e.target.value)} 
+                    className="sr-only" 
+                  />
+                  <span className={`w-4 h-4 rounded-full flex items-center justify-center transition-all flex-shrink-0 ${
+                    isSelected 
+                      ? 'bg-[#2a2b72] border border-[#2a2b72] text-white' 
+                      : 'bg-white border border-slate-300'
+                  }`}>
+                    {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                  </span>
+                </div>
+                <span className="text-[10px] text-slate-500 leading-tight">{type.desc}</span>
+              </label>
+            );
+          })}
         </div>
       </Accordion>
 
@@ -112,14 +106,14 @@ export default function FormControls({ config, updateConfig }) {
 
         <div>
           <label className="block font-medium text-slate-700 mb-1 flex items-center gap-1 text-xs"><Type className="w-3.5 h-3.5 text-slate-400" /> Font Family Stack</label>
-          <select value={config.selectedFont} onChange={(e) => updateConfig('selectedFont', e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
+          <select value={config.selectedFont} onChange={(e) => updateConfig('selectedFont', e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs text-slate-900 bg-white hover:border-[#2a2b72]/60 focus-visible:border-[#2a2b72] focus-visible:ring-2 focus-visible:ring-[#2a2b72]/20 outline-none transition-all">
             {FONT_OPTIONS.map(font => (<option key={font.id} value={font.id}>{font.name}</option>))}
           </select>
         </div>
 
         <div>
           <label className="block font-medium text-slate-700 mb-1 flex items-center gap-1 text-xs"><Type className="w-3.5 h-3.5 text-slate-400" /> Text Size</label>
-          <select value={config.textSize} onChange={(e) => updateConfig('textSize', Number(e.target.value))} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
+          <select value={config.textSize} onChange={(e) => updateConfig('textSize', Number(e.target.value))} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs text-slate-900 bg-white hover:border-[#2a2b72]/60 focus-visible:border-[#2a2b72] focus-visible:ring-2 focus-visible:ring-[#2a2b72]/20 outline-none transition-all">
             <option value={11}>Small (11px)</option>
             <option value={13}>Medium (13px)</option>
             <option value={15}>Large (15px)</option>
@@ -127,7 +121,7 @@ export default function FormControls({ config, updateConfig }) {
           </select>
         </div>
 
-        <TextInput label="Company Logo URL" value={config.logoUrl} onChange={(val) => updateConfig('logoUrl', val)} fontMono={true} />
+        <TextInput label="Company Logo URL" value={config.logoUrl} onChange={(val) => updateConfig('logoUrl', val)} placeholder="Paste a public image URL for your logo..." fontMono={true} />
 
         <div>
           <div className="mb-1 text-xs">
@@ -182,8 +176,8 @@ export default function FormControls({ config, updateConfig }) {
         </div>
         {config.showTags && (
           <div className="space-y-3">
-            <TextInput label="Tag 1 (Left)" value={config.tag1} onChange={(val) => updateConfig('tag1', val)} />
-            <TextInput label="Tag 2 (Right)" value={config.tag2} onChange={(val) => updateConfig('tag2', val)} />
+            <TextInput label="Tag 1 (Left)" value={config.tag1} onChange={(val) => updateConfig('tag1', val)} placeholder="Enter first service badge..." />
+            <TextInput label="Tag 2 (Right)" value={config.tag2} onChange={(val) => updateConfig('tag2', val)} placeholder="Enter second service badge..." />
           </div>
         )}
       </Accordion>
@@ -197,8 +191,8 @@ export default function FormControls({ config, updateConfig }) {
           </div>
           {config.showCta && (
             <div className="space-y-3 pl-2 border-l-2 border-[#2a2b72]/20">
-              <TextInput label="Button Text" value={config.ctaText} onChange={(val) => updateConfig('ctaText', val)} />
-              <TextInput label="Destination URL" value={config.ctaUrl} onChange={(val) => updateConfig('ctaUrl', val)} fontMono={true} />
+              <TextInput label="Button Text" value={config.ctaText} onChange={(val) => updateConfig('ctaText', val)} placeholder="Enter button label (e.g. Book a Demo)..." />
+              <TextInput label="Destination URL" value={config.ctaUrl} onChange={(val) => updateConfig('ctaUrl', val)} placeholder="Enter button destination URL..." fontMono={true} />
             </div>
           )}
         </div>
@@ -210,8 +204,8 @@ export default function FormControls({ config, updateConfig }) {
           </div>
           {config.showCta2 && (
             <div className="space-y-3 pl-2 border-l-2 border-[#2a2b72]/20">
-              <TextInput label="Button Text" value={config.cta2Text} onChange={(val) => updateConfig('cta2Text', val)} />
-              <TextInput label="Destination URL" value={config.cta2Url} onChange={(val) => updateConfig('cta2Url', val)} fontMono={true} />
+              <TextInput label="Button Text" value={config.cta2Text} onChange={(val) => updateConfig('cta2Text', val)} placeholder="Enter secondary button label..." />
+              <TextInput label="Destination URL" value={config.cta2Url} onChange={(val) => updateConfig('cta2Url', val)} placeholder="Enter button destination URL..." fontMono={true} />
             </div>
           )}
         </div>
@@ -231,7 +225,7 @@ export default function FormControls({ config, updateConfig }) {
                 key={tab.id}
                 type="button"
                 onClick={() => updateConfig('bannerType', tab.id)}
-                className={`flex-1 px-3 py-1.5 text-xs rounded-md transition-all ${
+                className={`flex-1 px-3 py-1.5 text-xs rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2a2b72]/30 ${
                   config.bannerType === tab.id 
                     ? 'bg-white text-slate-900 shadow-sm font-semibold' 
                     : 'text-slate-500 hover:text-slate-700 font-medium'
@@ -245,14 +239,14 @@ export default function FormControls({ config, updateConfig }) {
 
         {config.bannerType === 'image' && (
           <div className="space-y-3 pt-2">
-            <TextInput label="Image URL" value={config.bannerImgUrl} onChange={(val) => updateConfig('bannerImgUrl', val)} placeholder="https://example.com/banner.png" fontMono={true} />
-            <TextInput label="Link URL (Optional)" value={config.bannerLinkUrl} onChange={(val) => updateConfig('bannerLinkUrl', val)} placeholder="https://example.com/promo" fontMono={true} />
+            <TextInput label="Image URL" value={config.bannerImgUrl} onChange={(val) => updateConfig('bannerImgUrl', val)} placeholder="Paste banner image URL (recommended 520px wide)..." fontMono={true} />
+            <TextInput label="Link URL (Optional)" value={config.bannerLinkUrl} onChange={(val) => updateConfig('bannerLinkUrl', val)} placeholder="Enter optional click-through URL..." fontMono={true} />
           </div>
         )}
 
         {config.bannerType === 'html' && (
           <div className="space-y-3 pt-2">
-            <TextInput label="Banner Message" value={config.bannerHtmlText} onChange={(val) => updateConfig('bannerHtmlText', val)} placeholder="Secure Your Enterprise Today" />
+            <TextInput label="Banner Message" value={config.bannerHtmlText} onChange={(val) => updateConfig('bannerHtmlText', val)} placeholder="Enter promotional banner headline..." />
             <div className="grid grid-cols-2 gap-3">
               <ColorPicker label="Background Colour" value={config.bannerBgColor} onChange={(val) => updateConfig('bannerBgColor', val)} />
               <ColorPicker label="Text Colour" value={config.bannerTextColor} onChange={(val) => updateConfig('bannerTextColor', val)} />
@@ -269,7 +263,7 @@ export default function FormControls({ config, updateConfig }) {
             <Toggle checked={config.showTip} onChange={(val) => updateConfig('showTip', val)} />
           </div>
           {config.showTip && (
-            <TextArea value={config.tip} onChange={(val) => updateConfig('tip', val)} rows={2} />
+            <TextArea value={config.tip} onChange={(val) => updateConfig('tip', val)} placeholder="Enter a short security reminder..." rows={2} />
           )}
         </div>
 
@@ -279,7 +273,7 @@ export default function FormControls({ config, updateConfig }) {
             <Toggle checked={config.showDisclaimer} onChange={(val) => updateConfig('showDisclaimer', val)} />
           </div>
           {config.showDisclaimer && (
-            <TextArea value={config.disclaimer} onChange={(val) => updateConfig('disclaimer', val)} rows={3} />
+            <TextArea value={config.disclaimer} onChange={(val) => updateConfig('disclaimer', val)} placeholder="Enter your company confidentiality disclaimer..." rows={3} />
           )}
         </div>
       </Accordion>
@@ -295,10 +289,10 @@ export default function FormControls({ config, updateConfig }) {
             return (
               <label 
                 key={mode.id}
-                className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${
+                className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all focus-within:ring-2 focus-within:ring-[#2a2b72]/30 ${
                   isSelected 
                     ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' 
-                    : 'border-slate-200 hover:border-slate-300 bg-slate-50/70'
+                    : 'border-slate-200 hover:border-[#2a2b72]/50 hover:bg-slate-50 bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
