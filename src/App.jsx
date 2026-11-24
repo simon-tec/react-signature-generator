@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Shield, RotateCcw, CheckCircle2 } from 'lucide-react';
+import { Shield, RotateCcw, CheckCircle2, BookOpen } from 'lucide-react';
 import { generateHTML, LOGO_URL } from './utils/signatureGenerator';
 import FormControls from './components/FormControls';
 import LayoutPreview from './components/LayoutPreview';
+import UserGuideModal from './components/UserGuideModal';
 
 const DEFAULT_CONFIG = {
   name: "MR. Robot",
@@ -66,6 +67,7 @@ export default function App() {
   const [copiedVisual, setCopiedVisual] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const updateConfig = (key, value) => {
     setConfig(prev => ({ ...prev, [key]: value }));
@@ -137,14 +139,26 @@ export default function App() {
               <div className="flex items-center gap-2">
                 <h1 className="text-base font-bold text-white leading-none tracking-tight">SafeGuardian</h1>
                 <span className="bg-[#e85626]/20 text-[#ff8c66] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-[#e85626]/30">
-                  Signature Generator
+                  Internal Tool
                 </span>
               </div>
-              <p className="text-xs text-[#a0a1d6] mt-0.5 font-medium">Enterprise Email Setup Tool</p>
+              <p className="text-xs text-[#a0a1d6] mt-0.5 font-medium">Email Signature Generator</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <button onClick={handleReset} className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white hover:text-white border border-[#4041a6] rounded-lg hover:bg-[#4041a6] transition-colors">
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setIsGuideOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white border border-[#4041a6] rounded-lg hover:bg-[#4041a6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e85626] transition-colors"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#ff8c66]" />
+              <span>User Guide</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white border border-[#4041a6] rounded-lg hover:bg-[#4041a6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e85626] transition-colors"
+            >
               <RotateCcw className="w-3.5 h-3.5" /> Reset
             </button>
           </div>
@@ -177,6 +191,8 @@ export default function App() {
           <span className="text-xs font-medium">{toastMessage}</span>
         </div>
       )}
+
+      <UserGuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
     </div>
   );
 }
