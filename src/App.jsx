@@ -118,7 +118,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col antialiased">
       <header className="bg-[#2a2b72] sticky top-0 z-30 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#1e1e52] flex items-center justify-center text-white shadow-inner">
               <Shield className="w-5 h-5 text-[#e85626]" />
@@ -142,11 +142,11 @@ export default function App() {
         <div className="h-1 w-full bg-gradient-to-r from-[#e85626] to-[#f4845f]"></div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
-        <div className="lg:col-span-5">
+      <main className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+        <div className="lg:col-span-5 xl:col-span-4">
           <FormControls config={config} updateConfig={updateConfig} />
         </div>
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 xl:col-span-8">
           <LayoutPreview 
             currentHtml={currentHtml} 
             clientMode={config.clientMode} 
@@ -157,7 +157,6 @@ export default function App() {
             copiedVisual={copiedVisual} 
             copiedCode={copiedCode} 
             triggerToast={triggerToast} 
-            updateConfig={updateConfig}
           />
         </div>
       </main>
