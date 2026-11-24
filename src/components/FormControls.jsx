@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Palette, Type, Sparkles, FileText, Info, LayoutTemplate, Contact, Image, Link, Shield, Scale } from 'lucide-react';
+import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact, Image, Link, Shield, Scale } from 'lucide-react';
 import { FONT_OPTIONS } from '../utils/signatureGenerator';
 import { Accordion, TextInput, TextArea, Toggle, ColorPicker } from './FormElements';
 
@@ -75,7 +75,42 @@ export default function FormControls({ config, updateConfig }) {
         </div>
       </Accordion>
 
-      {/* 4. SOCIAL LINKS */}
+      {/* 4. BRANDING & TYPOGRAPHY */}
+      <Accordion title="Branding & Typography" icon={Palette}>
+        <div className="grid grid-cols-2 gap-3 mb-2">
+          <ColorPicker label="Primary Colour (Navy)" value={config.primaryColor} onChange={(val) => updateConfig('primaryColor', val)} />
+          <ColorPicker label="Accent Colour (Orange)" value={config.accentColor} onChange={(val) => updateConfig('accentColor', val)} />
+        </div>
+
+        <div>
+          <label className="block font-medium text-slate-700 mb-1 flex items-center gap-1 text-xs"><Type className="w-3.5 h-3.5 text-slate-400" /> Font Family Stack</label>
+          <select value={config.selectedFont} onChange={(e) => updateConfig('selectedFont', e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
+            {FONT_OPTIONS.map(font => (<option key={font.id} value={font.id}>{font.name}</option>))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block font-medium text-slate-700 mb-1 flex items-center gap-1 text-xs"><Type className="w-3.5 h-3.5 text-slate-400" /> Text Size</label>
+          <select value={config.textSize} onChange={(e) => updateConfig('textSize', Number(e.target.value))} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
+            <option value={11}>Small (11px)</option>
+            <option value={13}>Medium (13px)</option>
+            <option value={15}>Large (15px)</option>
+            <option value={17}>Extra Large (17px)</option>
+          </select>
+        </div>
+
+        <TextInput label="Company Logo URL" value={config.logoUrl} onChange={(val) => updateConfig('logoUrl', val)} fontMono={true} />
+
+        <div>
+          <div className="mb-1 text-xs">
+            <label className="font-medium text-slate-700">Logo Size: </label>
+            <span className="font-mono text-[#2a2b72] font-semibold">{config.logoWidth}px</span>
+          </div>
+          <input type="range" min="50" max="220" step="5" value={config.logoWidth} onChange={(e) => updateConfig('logoWidth', e.target.value)} className="w-full accent-[#2a2b72] cursor-pointer" />
+        </div>
+      </Accordion>
+
+      {/* 5. SOCIAL LINKS */}
       <Accordion title="Social Links" icon={Link}>
         <div className="text-[11px] text-slate-500 mb-4 pb-4 border-b border-slate-100">
           Social icons only appear when a URL is provided.
@@ -108,41 +143,6 @@ export default function FormControls({ config, updateConfig }) {
               For any network not listed above. Use a square PNG or JPEG hosted at a public URL; it is shown at 24x24px.
             </div>
           </div>
-        </div>
-      </Accordion>
-
-      {/* 5. BRANDING & TYPOGRAPHY */}
-      <Accordion title="Branding & Typography" icon={Palette}>
-        <div className="grid grid-cols-2 gap-3 mb-2">
-          <ColorPicker label="Primary Colour (Navy)" value={config.primaryColor} onChange={(val) => updateConfig('primaryColor', val)} />
-          <ColorPicker label="Accent Colour (Orange)" value={config.accentColor} onChange={(val) => updateConfig('accentColor', val)} />
-        </div>
-
-        <div>
-          <label className="block font-medium text-slate-700 mb-1 flex items-center gap-1 text-xs"><Type className="w-3.5 h-3.5 text-slate-400" /> Font Family Stack</label>
-          <select value={config.selectedFont} onChange={(e) => updateConfig('selectedFont', e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
-            {FONT_OPTIONS.map(font => (<option key={font.id} value={font.id}>{font.name}</option>))}
-          </select>
-        </div>
-
-        <div>
-          <label className="block font-medium text-slate-700 mb-1 flex items-center gap-1 text-xs"><Type className="w-3.5 h-3.5 text-slate-400" /> Text Size</label>
-          <select value={config.textSize} onChange={(e) => updateConfig('textSize', Number(e.target.value))} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-[#2a2b72] outline-none text-slate-900 bg-white">
-            <option value={11}>Small (11px)</option>
-            <option value={13}>Medium (13px)</option>
-            <option value={15}>Large (15px)</option>
-            <option value={17}>Extra Large (17px)</option>
-          </select>
-        </div>
-
-        <TextInput label="Company Logo URL" value={config.logoUrl} onChange={(val) => updateConfig('logoUrl', val)} fontMono={true} />
-
-        <div>
-          <div className="mb-1 text-xs">
-            <label className="font-medium text-slate-700">Logo Size: </label>
-            <span className="font-mono text-[#2a2b72] font-semibold">{config.logoWidth}px</span>
-          </div>
-          <input type="range" min="50" max="220" step="5" value={config.logoWidth} onChange={(e) => updateConfig('logoWidth', e.target.value)} className="w-full accent-[#2a2b72] cursor-pointer" />
         </div>
       </Accordion>
 
@@ -253,6 +253,26 @@ export default function FormControls({ config, updateConfig }) {
           {config.showDisclaimer && (
             <TextArea value={config.disclaimer} onChange={(val) => updateConfig('disclaimer', val)} rows={3} />
           )}
+        </div>
+      </Accordion>
+
+      {/* 10. TARGET EMAIL CLIENT */}
+      <Accordion title="Target Email Client" icon={Layers}>
+        <div className="grid grid-cols-1 gap-3">
+          <label className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${config.clientMode === 'gmail' ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-semibold text-slate-900">Universal (Modern)</span>
+              <input type="radio" name="clientMode" value="gmail" checked={config.clientMode === 'gmail'} onChange={(e) => updateConfig('clientMode', e.target.value)} className="accent-[#2a2b72]" />
+            </div>
+            <span className="text-[11px] text-slate-500 leading-tight">Optimised for Gmail, Apple Mail, New Outlook, and Outlook (Mac).</span>
+          </label>
+          <label className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${config.clientMode === 'outlook' ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs font-semibold text-slate-900">Classic Outlook (Windows)</span>
+              <input type="radio" name="clientMode" value="outlook" checked={config.clientMode === 'outlook'} onChange={(e) => updateConfig('clientMode', e.target.value)} className="accent-[#2a2b72]" />
+            </div>
+            <span className="text-[11px] text-slate-500 leading-tight">Includes MSO conditional tables for older Microsoft Word rendering engines.</span>
+          </label>
         </div>
       </Accordion>
       
