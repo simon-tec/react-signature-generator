@@ -1,37 +1,65 @@
 import React from 'react';
-import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact, Image, Link, Shield, Scale } from 'lucide-react';
+import { User, Palette, Type, Sparkles, FileText, Info, Layers, LayoutTemplate, Contact, Image, Link, Shield, Scale, Check } from 'lucide-react';
 import { FONT_OPTIONS } from '../utils/signatureGenerator';
 import { Accordion, TextInput, TextArea, Toggle, ColorPicker } from './FormElements';
 
 export default function FormControls({ config, updateConfig }) {
-  
+  const activeSocialCount = [
+    config.socialGithub, config.socialLinkedin, config.socialFacebook,
+    config.socialInstagram, config.socialYoutube, config.socialTwitter,
+    config.socialTiktok, config.socialPinterest, config.socialWhatsapp,
+    config.customLink1, config.customLink2
+  ].filter(Boolean).length;
+
+  const activeCtaCount = (config.showCta ? 1 : 0) + (config.showCta2 ? 1 : 0);
+  const activeFooterCount = (config.showTip ? 1 : 0) + (config.showDisclaimer ? 1 : 0);
+
   return (
     <div className="flex flex-col">
       
       {/* 1. SIGNATURE LAYOUT */}
       <Accordion title="Signature Layout" icon={LayoutTemplate} defaultOpen={true}>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2.5">
           {[
             { id: 'split', label: 'Split' },
             { id: 'stacked', label: 'Stacked (Left)' },
             { id: 'terminal-code', label: 'Terminal (Code)' },
             { id: 'terminal-clean', label: 'Terminal (Clean)' },
-            { id: 'grid-block', label: 'Stacked (Grid block)' }
-          ].map((type) => (
-            <label 
-              key={type.id}
-              className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${
-                config.layout === type.id 
-                  ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' 
-                  : 'border-slate-200 hover:border-slate-300 bg-slate-50'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-semibold text-slate-900 capitalize">{type.label}</span>
-                <input type="radio" name="layout" value={type.id} checked={config.layout === type.id} onChange={(e) => updateConfig('layout', e.target.value)} className="accent-[#2a2b72]" />
-              </div>
-            </label>
-          ))}
+            { id: 'grid-block', label: 'Stacked (Grid Block)', fullWidth: true }
+          ].map((type) => {
+            const isSelected = config.layout === type.id;
+            return (
+              <label 
+                key={type.id}
+                className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-all ${
+                  type.fullWidth ? 'col-span-2' : ''
+                } ${
+                  isSelected 
+                    ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' 
+                    : 'border-slate-200 hover:border-slate-300 bg-slate-50/70'
+                }`}
+              >
+                <span className={`text-xs font-semibold ${isSelected ? 'text-[#2a2b72]' : 'text-slate-800'}`}>
+                  {type.label}
+                </span>
+                <input 
+                  type="radio" 
+                  name="layout" 
+                  value={type.id} 
+                  checked={isSelected} 
+                  onChange={(e) => updateConfig('layout', e.target.value)} 
+                  className="sr-only" 
+                />
+                <span className={`w-4 h-4 rounded-full flex items-center justify-center transition-all flex-shrink-0 ${
+                  isSelected 
+                    ? 'bg-[#2a2b72] border border-[#2a2b72] text-white' 
+                    : 'bg-white border border-slate-300'
+                }`}>
+                  {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                </span>
+              </label>
+            );
+          })}
         </div>
       </Accordion>
 
@@ -48,7 +76,7 @@ export default function FormControls({ config, updateConfig }) {
         <TextInput label="Phone (primary)" value={config.phone} onChange={(val) => updateConfig('phone', val)} placeholder="+64 9 000 1234" />
         
         <div>
-          <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center justify-between mb-1.5">
             <label className="font-medium text-slate-700 text-xs">Phone (secondary)</label>
             <Toggle checked={config.showMobile} onChange={(val) => updateConfig('showMobile', val)} />
           </div>
@@ -59,7 +87,7 @@ export default function FormControls({ config, updateConfig }) {
         <TextInput label="Website URL" value={config.website} onChange={(val) => updateConfig('website', val)} placeholder="https://www.safeguardian.co.nz" />
         
         <div>
-          <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center justify-between mb-1.5">
             <label className="font-medium text-slate-700 text-xs">LinkedIn URL</label>
             <Toggle checked={config.showLinkedin} onChange={(val) => updateConfig('showLinkedin', val)} />
           </div>
@@ -67,7 +95,7 @@ export default function FormControls({ config, updateConfig }) {
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center justify-between mb-1.5">
             <label className="font-medium text-slate-700 text-xs">Location</label>
             <Toggle checked={config.showAddress} onChange={(val) => updateConfig('showAddress', val)} />
           </div>
@@ -111,7 +139,7 @@ export default function FormControls({ config, updateConfig }) {
       </Accordion>
 
       {/* 5. SOCIAL LINKS */}
-      <Accordion title="Social Links" icon={Link}>
+      <Accordion title="Social Links" icon={Link} badge={activeSocialCount > 0 ? `${activeSocialCount} Active` : null}>
         <div className="text-[11px] text-slate-500 mb-4 pb-4 border-b border-slate-100">
           Social icons only appear when a URL is provided.
         </div>
@@ -147,10 +175,10 @@ export default function FormControls({ config, updateConfig }) {
       </Accordion>
 
       {/* 6. SERVICE TAGS & BADGES */}
-      <Accordion title="Service Tags & Badges" icon={Shield}>
+      <Accordion title="Service Tags & Badges" icon={Shield} badge={config.showTags ? 'On' : null}>
         <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-3">
           <label className="font-medium text-slate-800 text-xs">Enable Service Badges</label>
-          <Toggle checked={config.showTags} onChange={(e) => updateConfig('showTags', e)} />
+          <Toggle checked={config.showTags} onChange={(val) => updateConfig('showTags', val)} />
         </div>
         {config.showTags && (
           <div className="space-y-3">
@@ -161,11 +189,11 @@ export default function FormControls({ config, updateConfig }) {
       </Accordion>
 
       {/* 7. CALL-TO-ACTION BUTTONS */}
-      <Accordion title="Call-to-Action Buttons" icon={Sparkles}>
+      <Accordion title="Call-to-Action Buttons" icon={Sparkles} badge={activeCtaCount > 0 ? `${activeCtaCount} Active` : null}>
         <div className="mb-4">
           <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-3">
             <label className="font-medium text-slate-800 flex items-center gap-1.5 text-xs"><span className="w-2 h-2 rounded-full bg-[#e85626]"></span> Primary CTA Button</label>
-            <Toggle checked={config.showCta} onChange={(e) => updateConfig('showCta', e)} />
+            <Toggle checked={config.showCta} onChange={(val) => updateConfig('showCta', val)} />
           </div>
           {config.showCta && (
             <div className="space-y-3 pl-2 border-l-2 border-[#2a2b72]/20">
@@ -178,7 +206,7 @@ export default function FormControls({ config, updateConfig }) {
         <div>
           <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-3">
             <label className="font-medium text-slate-800 flex items-center gap-1.5 text-xs"><span className="w-2 h-2 rounded-full bg-[#2a2b72]"></span> Secondary CTA Button</label>
-            <Toggle checked={config.showCta2} onChange={(e) => updateConfig('showCta2', e)} />
+            <Toggle checked={config.showCta2} onChange={(val) => updateConfig('showCta2', val)} />
           </div>
           {config.showCta2 && (
             <div className="space-y-3 pl-2 border-l-2 border-[#2a2b72]/20">
@@ -190,7 +218,7 @@ export default function FormControls({ config, updateConfig }) {
       </Accordion>
 
       {/* 8. PROMOTIONAL BANNER */}
-      <Accordion title="Promotional Banner" icon={Image}>
+      <Accordion title="Promotional Banner" icon={Image} badge={config.bannerType !== 'none' ? config.bannerType.toUpperCase() : null}>
         <div>
           <label className="block font-medium text-slate-700 mb-2 text-xs">Banner Type</label>
           <div className="flex items-center p-1 bg-slate-100 rounded-lg">
@@ -234,11 +262,11 @@ export default function FormControls({ config, updateConfig }) {
       </Accordion>
 
       {/* 9. LEGAL & SECURITY FOOTERS */}
-      <Accordion title="Legal & Security Footers" icon={Scale}>
+      <Accordion title="Legal & Security Footers" icon={Scale} badge={activeFooterCount > 0 ? `${activeFooterCount} Active` : null}>
         <div className="mb-4">
           <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-3">
             <label className="font-medium text-slate-800 flex items-center gap-1.5 text-xs"><Info className="w-3.5 h-3.5 text-amber-500" /> Security Footer Tip</label>
-            <Toggle checked={config.showTip} onChange={(e) => updateConfig('showTip', e)} />
+            <Toggle checked={config.showTip} onChange={(val) => updateConfig('showTip', val)} />
           </div>
           {config.showTip && (
             <TextArea value={config.tip} onChange={(val) => updateConfig('tip', val)} rows={2} />
@@ -248,7 +276,7 @@ export default function FormControls({ config, updateConfig }) {
         <div>
           <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-3">
             <label className="font-medium text-slate-800 flex items-center gap-1.5 text-xs"><FileText className="w-3.5 h-3.5 text-slate-500" /> Legal Disclaimer</label>
-            <Toggle checked={config.showDisclaimer} onChange={(e) => updateConfig('showDisclaimer', e)} />
+            <Toggle checked={config.showDisclaimer} onChange={(val) => updateConfig('showDisclaimer', val)} />
           </div>
           {config.showDisclaimer && (
             <TextArea value={config.disclaimer} onChange={(val) => updateConfig('disclaimer', val)} rows={3} />
@@ -257,22 +285,44 @@ export default function FormControls({ config, updateConfig }) {
       </Accordion>
 
       {/* 10. TARGET EMAIL CLIENT */}
-      <Accordion title="Target Email Client" icon={Layers}>
-        <div className="grid grid-cols-1 gap-3">
-          <label className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${config.clientMode === 'gmail' ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold text-slate-900">Universal (Modern)</span>
-              <input type="radio" name="clientMode" value="gmail" checked={config.clientMode === 'gmail'} onChange={(e) => updateConfig('clientMode', e.target.value)} className="accent-[#2a2b72]" />
-            </div>
-            <span className="text-[11px] text-slate-500 leading-tight">Optimised for Gmail, Apple Mail, New Outlook, and Outlook (Mac).</span>
-          </label>
-          <label className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${config.clientMode === 'outlook' ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' : 'border-slate-200 hover:border-slate-300 bg-slate-50'}`}>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs font-semibold text-slate-900">Classic Outlook (Windows)</span>
-              <input type="radio" name="clientMode" value="outlook" checked={config.clientMode === 'outlook'} onChange={(e) => updateConfig('clientMode', e.target.value)} className="accent-[#2a2b72]" />
-            </div>
-            <span className="text-[11px] text-slate-500 leading-tight">Includes MSO conditional tables for older Microsoft Word rendering engines.</span>
-          </label>
+      <Accordion title="Target Email Client" icon={Layers} badge={config.clientMode === 'outlook' ? 'MSO' : 'Universal'}>
+        <div className="grid grid-cols-1 gap-2.5">
+          {[
+            { id: 'gmail', title: 'Universal (Modern)', desc: 'Optimised for Gmail, Apple Mail, New Outlook, and Outlook (Mac).' },
+            { id: 'outlook', title: 'Classic Outlook (Windows)', desc: 'Includes MSO conditional tables for older Microsoft Word rendering engines.' }
+          ].map((mode) => {
+            const isSelected = config.clientMode === mode.id;
+            return (
+              <label 
+                key={mode.id}
+                className={`flex flex-col p-3 rounded-lg border cursor-pointer transition-all ${
+                  isSelected 
+                    ? 'border-[#2a2b72] bg-[#2a2b72]/5 ring-1 ring-[#2a2b72]' 
+                    : 'border-slate-200 hover:border-slate-300 bg-slate-50/70'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`text-xs font-semibold ${isSelected ? 'text-[#2a2b72]' : 'text-slate-900'}`}>{mode.title}</span>
+                  <input 
+                    type="radio" 
+                    name="clientMode" 
+                    value={mode.id} 
+                    checked={isSelected} 
+                    onChange={(e) => updateConfig('clientMode', e.target.value)} 
+                    className="sr-only" 
+                  />
+                  <span className={`w-4 h-4 rounded-full flex items-center justify-center transition-all flex-shrink-0 ${
+                    isSelected 
+                      ? 'bg-[#2a2b72] border border-[#2a2b72] text-white' 
+                      : 'bg-white border border-slate-300'
+                  }`}>
+                    {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                  </span>
+                </div>
+                <span className="text-[11px] text-slate-500 leading-tight">{mode.desc}</span>
+              </label>
+            );
+          })}
         </div>
       </Accordion>
       
