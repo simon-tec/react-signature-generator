@@ -57,7 +57,7 @@ export default function LayoutPreview({
 
         {/* Visual Canvas Area */}
         {activeTab === 'visual' && (
-          <div className={`p-4 sm:p-6 transition-colors duration-200 min-h-[340px] flex flex-col justify-center items-center ${previewBg === 'dark' ? 'bg-[#15153a]' : 'bg-slate-100/70'}`}>
+          <div className={`p-4 sm:p-6 transition-colors duration-200 min-h-[300px] flex flex-col justify-center items-center ${previewBg === 'dark' ? 'bg-[#15153a]' : 'bg-slate-100/70'}`}>
             <div className="w-full max-w-full">
               <div className={`border border-b-0 rounded-t-xl p-3 flex items-center justify-between text-xs ${previewBg === 'dark' ? 'bg-[#1e1e52] border-[#2a2b72] text-slate-400' : 'bg-white border-slate-200 text-slate-500'}`}>
                 <div className="flex items-center gap-2">
@@ -66,15 +66,15 @@ export default function LayoutPreview({
                 </div>
                 <span className="text-[10px] bg-[#2a2b72]/10 text-[#2a2b72] px-2 py-0.5 rounded font-semibold">{clientMode === 'outlook' ? 'Classic Outlook (MSO)' : 'Universal / Web'}</span>
               </div>
-              <div className={`p-6 sm:p-8 rounded-b-xl border shadow-lg transition-all ${previewBg === 'dark' ? 'bg-[#1e1e52] border-[#2a2b72] text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
-                <div className="text-xs text-slate-400 pb-4 mb-4 border-b border-slate-100/10 space-y-1">
+              <div className={`p-5 sm:p-6 rounded-b-xl border shadow-lg transition-all ${previewBg === 'dark' ? 'bg-[#1e1e52] border-[#2a2b72] text-slate-200' : 'bg-white border-slate-200 text-slate-800'}`}>
+                <div className="text-xs text-slate-400 pb-3 mb-3 border-b border-slate-100/10 flex flex-wrap gap-x-4 gap-y-1">
                   <p><strong className="text-slate-400">From:</strong> {name} &lt;{email}&gt;</p>
                   <p><strong className="text-slate-400">To:</strong> client@enterprise-corp.com</p>
                 </div>
-                <p className="text-xs text-slate-500 mb-6 leading-relaxed">
-                  Hi David,<br /><br />Thank you for reviewing the updated SafeGuardian deployment roadmap. Please review my signature details below and let me know if you need any further compliance documentations.<br /><br />Best regards,
+                <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+                  Hi David, please review the updated deployment roadmap below. Best regards,
                 </p>
-                <div ref={previewRef} id="signature-render-area" className="py-2 overflow-x-auto" dangerouslySetInnerHTML={{ __html: currentHtml }} />
+                <div ref={previewRef} id="signature-render-area" className="py-1 overflow-x-auto" dangerouslySetInnerHTML={{ __html: currentHtml }} />
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function LayoutPreview({
 
         {/* Code Source Area */}
         {activeTab === 'code' && (
-          <div className="p-6 bg-[#15153a] flex flex-col gap-3 min-h-[340px]">
+          <div className="p-6 bg-[#15153a] flex flex-col gap-3 min-h-[300px]">
             <div className="flex items-center justify-between text-xs text-slate-400">
               <span className="font-mono text-[#a0a1d6]">Clean HTML Table &bull; MSO Comment Compatible</span>
             </div>
